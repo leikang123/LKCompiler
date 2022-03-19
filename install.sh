@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/bash 
 
-prefix="${1:-/usr/local/cbc}"
-BINS="bin/cbc"
-LIBS="lib/cbc.jar lib/libcbc.a"
+prefix="${1:-/usr/local/LKC}"
+BINS="bin/LKC"
+LIBS="lib/LKC.jar lib/liblkc.a"
 
 main()
 {
-    if ! [[ -f lib/cbc.jar && -f lib/libcbc.a ]]
+    if ! [[ -f lib/lkc.jar && -f lib/liblkc.a ]]
     then
-        echo "lib/cbc.jar and lib/libcbc.a do not exist.  Build it first" 1>&2
+        echo "lib/lkc.jar and lib/liblkc.a do not exist.  Build it first" 1>&2
         exit 1
     fi
     echo "prefix=$prefix"
@@ -18,7 +18,7 @@ main()
     invoke cp $LIBS "$prefix/lib"
     invoke rm -rf "$prefix/import"
     invoke cp -r import "$prefix/import"
-    echo "cbc successfully installed as $prefix/bin/cbc"
+    echo "lkc successfully installed as $prefix/bin/lkc"
 }
 
 invoke()
