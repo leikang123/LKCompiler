@@ -1,0 +1,12 @@
+#!/bin/bash
+# lkc --  compiler
+
+JAVA=${JAVA:-java}
+
+cmd_path="$(readlink -f $0)"
+srcdir_root="$(dirname "$(dirname "$cmd_path")")"
+"$JAVA" -classpath "$srcdir_root/lib/lkc.jar" \
+        src.main.compiler.Compiler \
+        -I"$srcdir_root/import" \
+        -L"$srcdir_root/lib" \
+        "$@"
