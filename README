@@ -1,10 +1,10 @@
 LKCompiler Compiler (The code is still being refined)
-====================
+==================================================================
+====================================================================================================================================
 
     This is the LKCompiler,Head-to-head love based on cbc programming language compiler.
-
+------------------------------------------------------------------
 Requirements
-------------
 
     To compile cbc itself:
 
@@ -22,7 +22,7 @@ Requirements
 
 
 Installation
-------------
+
 
     To install all files under /usr/local/lkc:
 
@@ -36,7 +36,7 @@ Installation
 
 
 Build
------
+
 
     Edit build.properties for your environment and invoke make:
 
@@ -45,7 +45,6 @@ Build
 
 
 Test
-----
 
     Invoke "make test":
 
@@ -56,13 +55,13 @@ Test
 
 
 Usage
------
+
 
     $ lkc --help
 
 
 License
--------
+
 
     Modified BSD license.
     For details of modified BSD license, see following:
@@ -98,6 +97,5 @@ License
 
 
 Contact
--------
 
     lkc produced by Minero Aoki <aamine@loveruby.net>.
