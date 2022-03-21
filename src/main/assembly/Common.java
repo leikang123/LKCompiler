@@ -13,7 +13,7 @@ public class Common extends Assembly {
         this.indentLevel = indentLevel;
     }
 
-    public boolean isComment() {
+    public boolean isCommon() {
         return true;
     }
 
