@@ -1,0 +1,222 @@
+// 定义语法规则
+options {
+STATIC = false;
+JDK_VERSION = "1.8";
+
+}
+PARSER_BEGIN(Parser)
+package src.main.parser;
+import java.io.*;
+import java.util.*;
+import java.lang.reflect.*;
+
+public class Parser {
+    // 属性
+    private String sourceName;
+    private LibraryLoader loader;
+    private ErrorHandler errorHandler;
+    private Set<String> knownTypedefs;
+
+    static public AST parseFile(File file,LibraryLoader loader,ErrorHander errorHander)throws SyntaxException
+    ,FileException{
+        return paesrFile(file,loader,errorHander,false);
+    }
+    static public Declarations parseDeclFile(File file,LibraryLoader loader,ErrorHander errorHander)throws SyntaxException,FileExceptionP{
+      return parseDeclFile(file,loader,errorHander,false);  
+    }
+     static public Declarations parseDeclFile(File file,
+                                             LibraryLoader loader,
+                                             ErrorHandler errorHandler,
+                                             boolean debug)
+                                             throws SyntaxException,
+                                                    FileException {
+        return newFileParser(file, loader, errorHandler, debug).parseDecls();
+    }
+     // 字符
+    static final public String SOURCE_ENCODING = "UTF-8";
+
+    static public Parser newFileParser(File file,
+                                       LibraryLoader loader,
+                                       ErrorHandler errorHandler,
+                                       boolean debug)
+                                       throws FileException {
+        try {
+            BufferedReader r =
+                new BufferedReader(
+                    new InputStreamReader(new FileInputStream(file),
+                                          SOURCE_ENCODING));
+            return new Parser(r, file.getPath(), loader, errorHandler, debug);
+        }
+        catch (FileNotFoundException ex) {
+            throw new FileException(ex.getMessage());
+        }
+        catch (UnsupportedEncodingException ex) {
+            throw new Error("UTF-8 is not supported??: " + ex.getMessage());
+        }
+    }
+
+
+    public Parser(Reader s, String name,
+                  LibraryLoader loader, ErrorHandler errorHandler) {
+        this(s, name, loader, errorHandler, false);
+    }
+    
+
+
+    public Parser(Reader s, String name, LibraryLoader loader,
+                  ErrorHandler errorHandler, boolean debug) {
+        this(s);
+        this.sourceName = name;
+        this.loader = loader;
+        this.errorHandler = errorHandler;
+        this.knownTypedefs = new HashSet<String>();
+        if (debug) {
+            enable_tracing();
+        }
+        else {
+            disable_tracing();
+        }
+    }
+
+    public AST parse() throws SyntaxException {
+        try {
+            return compilation_unit();
+        }
+        catch (TokenMgrError err) {
+            throw new SyntaxException(err.getMessage());
+        }
+        catch (ParseException ex) {
+            throw new SyntaxException(ex.getMessage());
+        }
+        catch (LookaheadSuccess err) {
+            throw new SyntaxException("syntax error");
+        }
+    }
+
+    public Declarations parseDecls() throws SyntaxException {
+        try {
+            return declaration_file();
+        }
+        catch (TokenMgrError ex) {
+            throw new SyntaxException(ex.getMessage());
+        }
+        catch (ParseException ex) {
+            throw new SyntaxException(ex.getMessage());
+        }
+    }
+
+    private void addKnownTypedefs(List<TypedefNode> typedefs) {
+        for (TypedefNode n : typedefs) {
+            addType(n.name());
+        }
+    }
+
+    private void addType(String name) {
+        knownTypedefs.add(name);
+    }
+
+    private boolean isType(String name) {
+        return knownTypedefs.contains(name);
+    }
+
+    private IntegerLiteralNode integerNode(Location loc, String image) {
+        long i = integerValue(image);
+        if (image.endsWith("UL")) {
+            return new IntegerLiteralNode(loc, IntegerTypeRef.ulongRef(), i);
+        }
+        else if (image.endsWith("L")) {
+            return new IntegerLiteralNode(loc, IntegerTypeRef.longRef(), i);
+        }
+        else if (image.endsWith("U")) {
+            return new IntegerLiteralNode(loc, IntegerTypeRef.uintRef(), i);
+        }
+        else {
+            return new IntegerLiteralNode(loc, IntegerTypeRef.intRef(), i);
+        }
+    }
+
+    private long integerValue(String image) {
+        String s = image.replaceFirst("[UL]+", "");
+        if (s.startsWith("0x") || s.startsWith("0X")) {
+            return Long.parseLong(s.substring(2), 16);
+        }
+        else if (s.startsWith("0") && !s.equals("0")) {
+            return Long.parseLong(s.substring(1), 8);
+        }
+        else {
+            return Long.parseLong(s, 10);
+        }
+    }
+
+    private long characterCode(String image) throws ParseException {
+        String s = stringValue(image);
+        if (s.length() != 1) {
+            throw new Error("must not happen: character length > 1");
+        }
+        return (long)s.charAt(0);
+    }
+
+    private String stringValue(String _image) throws ParseException {
+        int pos = 0;
+        int idx;
+        StringBuffer buf = new StringBuffer();
+        String image = _image.substring(1, _image.length() - 1);
+
+        while ((idx = image.indexOf("\\", pos)) >= 0) {
+            buf.append(image.substring(pos, idx));
+            if (image.length() >= idx + 4
+                    && Character.isDigit(image.charAt(idx+1))
+                    && Character.isDigit(image.charAt(idx+2))
+                    && Character.isDigit(image.charAt(idx+3))) {
+                buf.append(unescapeOctal(image.substring(idx+1, idx+4)));
+                pos = idx + 4;
+            }
+            else {
+                buf.append(unescapeSeq(image.charAt(idx+1)));
+                pos = idx + 2;
+            }
+        }
+        if (pos < image.length()) {
+            buf.append(image.substring(pos, image.length()));
+        }
+        return buf.toString();
+    }
+
+    private TypeRef size_t() {
+        return IntegerTypeRef.ulongRef();
+    }
+
+    private static final int charMax = 255;
+
+    private char unescapeOctal(String digits) throws ParseException {
+        int i = Integer.parseInt(digits, 8);
+        if (i > charMax) {
+            throw new ParseException(
+                "octal character sequence too big: \\" + digits);
+        }
+        return (char)i;
+    }
+
+    private static final char bell = 7;
+    private static final char backspace = 8;
+    private static final char escape = 27;
+    private static final char vt = 11;
+
+    private char unescapeSeq(char c) throws ParseException {
+        switch (c) {
+        case '0': return '\0';
+        case '"': return '"';
+        case '\'': return '\'';
+        case 'a': return bell;
+        case 'b': return backspace;
+        case 'e': return escape;
+        case 'f': return '\f';
+        case 'n': return '\n';
+        case 'r': return '\r';
+        case 't': return '\t';
+        case 'v': return vt;
+        default:
+            throw new ParseException("unknown escape sequence: \"\\" + c);
+        }
+    }
+}
