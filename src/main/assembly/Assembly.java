@@ -1,6 +1,9 @@
   package main.assembly;
-public abstract class Assembly {
+  // 汇编抽象类
+  public abstract class Assembly {
+      // 抽象源符号表
     abstract public String toSource(SymbolTable table);
+    // 抽象转储方法
     abstract public String dump();
 
     public boolean isInstruction() {
@@ -14,8 +17,8 @@ public abstract class Assembly {
     public boolean isDirective() {
         return false;
     }
-
-    public boolean isComment() {
+    
+    public boolean isCommon() {
         return false;
     }
 
