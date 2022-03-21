@@ -201,7 +201,7 @@ public class Parser {
     private static final char backspace = 8;
     private static final char escape = 27;
     private static final char vt = 11;
-
+    // 各种符号的字符
     private char unescapeSeq(char c) throws ParseException {
         switch (c) {
         case '0': return '\0';
@@ -219,5 +219,82 @@ public class Parser {
             throw new ParseException("unknown escape sequence: \"\\" + c);
         }
     }
-}
 
+    public Location location(Token t){
+        return new Location(sourceName,t);
+    }
+}
+PARSER_END(Parser)
+/*词法设计规则，跳过空白符*/
+SPECIAL_TOKEN: { <SPACES:{["","\t","\n","\f"]}+>}
+// 扫描状态
+MORE: { <"/*"> : IN_BLOCK_COMMENT }
+<IN_BLOCK_COMMENT> MORE: { <~[]> }
+<IN_BLOCK_COMMENT> SPECIAL_TOKEN: { <BLOCK_COMMENT: "*/"> : DEFAULT }
+// 扫描字符字面量
+MORE: { <"'"> : IN_CHARACTER }                         
+<IN_CHARACTER> MORE: {
+      <~["'", "\\", "\n", "\r"]> : CHARACTER_TERM      
+    | <"\\" (["0"-"7"]){3}>      : CHARACTER_TERM      
+    | <"\\" ~[]>                 : CHARACTER_TERM      
+}
+<CHARACTER_TERM> TOKEN: { <CHARACTER: "'"> : DEFAULT } 
+
+
+// 扫描字符串字面量
+MORE: { <"\""> : IN_STRING }                           
+<IN_STRING> MORE: {
+      <(~["\"", "\\", "\n", "\r"])+>                   
+    | <"\\" (["0"-"7"]){3}>                            
+    | <"\\" ~[]>                                      
+}
+<IN_STRING> TOKEN: { <STRING: "\""> : DEFAULT }        
+
+
+// 跳过注释
+SPECIAL_TOKEN: {
+    <LINE_COMMENT: "//" (~["\n", "\r"])* ("\n" | "\r\n" | "\r")?>
+}
+// 关键字解析
+TOKEN : {
+     <VOID  :"void">
+    |<CHAR  :"char">
+    |<SHORT :"short">
+    |<INT   :"int">
+    |<LONG  :"long">
+    |<STRUCT :"struct">
+    |<UNION  :"union">
+    |<ENUM  :"enum">
+    |<STATIC :"static">
+    |<EXTERN :"extern">
+    |<CONST :"const">
+    |<SIGNED    :"signed">
+    |<UNSIGNED  :"unsigned">
+    |<IF    :"if">
+    |<ELSE  :"else">
+    |<SWITCH  :"switch">
+    |<CASE  :"case">
+    |<DEFAULT  :"default">
+    |<WHILE  :"while">
+    |<DO  :"do">
+    |<FOR  :"for">
+    |<RETURN :"return">
+    |<BREAK  :"break">
+    |<GOTO     :"goto">
+    |<CONTINUE  :"continue">
+    |<TYPEDEF  :"typedef">
+    |<IMPORT  :"import">
+    |<SIZEOF  :"sizeof">
+}
+// 描述语法规则，单词的命名法则，首字母必须是字母或者下划线，不能是数字，第二个字母可以是数字
+TOKEN : {
+    <IDENTIFIER: ["a"-"z","A"-"Z","_"] (["a"-"z","A"-"z","_","0"-"9"])*>
+}
+// 数值匹配
+TOKEN : {
+    <INTEGER :["1"-"9"](["0"-"9"])* ("U")?("L")?
+             |"0" ["x","X"](["0"-"9","a"-"f","A"-"F"])+("U")?("L")?
+             |"0" (["0"-"7"])*("U")?("L")?
+             >
+
+}
