@@ -1,5 +1,5 @@
-package src.main.assembly;
-abstract public class Assembly {
+  package main.assembly;
+public abstract class Assembly {
     abstract public String toSource(SymbolTable table);
     abstract public String dump();
 
