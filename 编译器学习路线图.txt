@@ -1,0 +1,33 @@
+一般的
+您需要每天花一些时间来丰富这些主题的知识。
+
+熟悉不同的编程语言（令牌、功能、实现和工作方式）
+- https://en.wikipedia.org/wiki/Programming_language
+- https://en.wikipedia.org/wiki/Lists_of_programming_languages
+记住我的意思只是令牌，语法和功能，而不是专业知识。
+
+熟悉数据结构和算法。这一点非常重要，在使用编译器之后，我看到大多数数据结构和算法概念都是在编译器中实现的，而在不知道您的理解和实现方面将是零。
+
+熟悉不同的处理器（架构和指令）。您会惊讶地发现编译器专家通常对处理器有很好的了解。著名的编译器专家 Steven Muchnick 在 Hewlett-Packard 设计了处理器 PA-RISC，在 Sun Microsystems 设计了 ​​SPARC。
+图书
+您必须分步走至少前四个。
+
+1.编译器：Alfred V Aho、Monica S. Lam、Ravi Sethi 和 Jeffrey D. Ulman 的《原理、技术和工具》被认为是编译器基础的标准权威，并且是上述技术的良好入门。
+
+2.Lex & Yacc 由 John Levine、Tony Mason、Doug Brown Oreilly 出版
+
+3.C 语言中的现代编译器实现，作者：Andrew W. Appel，Maia Ginsburg 剑桥大学出版社。
+
+4.让我们构建一个编译器 Jack Crenshaw ( https://compilers.iecc.com/crenshaw/ )
+
+5.Steven Muchnick 的高级编译器设计和实现。高级编译器课程广泛使用的教科书之一。
+
+6.工程编译器由 Keith D. Cooper 和 Linda Torczon Morgan Kaufmann 出版。这是一本非常实用的编译器书籍。
+
+7.Richard Bornat 的《Understanding and Writing Compilers》是一本非常有用的书，它是少数充分解释从解析树递归生成机器指令的书之一。作者从早期的大型机和小型计算机中获得的经验，提供了新的书籍往往无法传达的有用见解。
+
+8.Niklaus Wirth Addison Wesley 的编译器构建。使用递归下降解析器的分步指南。描述 Oberon-0 的编译器，它是作者的编程语言 Oberon 的子集。
+
+9.迈克尔斯科特摩根考夫曼出版社的编程语言语用学。本书对编译技术和编程语言进行了广泛而深入的介绍，并附有许多示例。
+
+10.Randy Allen 和 Ken Kennedy Morgan Kaufman Publishers 为现代架构优化编译器。一本现代教科书，专注于优化，包括并行化和内存层次优化。
