@@ -5,19 +5,19 @@
     abstract public String toSource(SymbolTable table);
     // 抽象转储方法
     abstract public String dump();
-
+    // 判断指令
     public boolean isInstruction() {
         return false;
     }
-
+    // 标签
     public boolean isLabel() {
         return false;
     }
-
-    public boolean isDirective() {
+     // 汇编伪操作
+     public boolean isDirective() {
         return false;
     }
-    
+    // 注释
     public boolean isCommon() {
         return false;
     }
