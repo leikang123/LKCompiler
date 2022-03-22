@@ -1,43 +1,43 @@
-LKCompiler Compiler (The code is still being refined)
+LKCompiler是一个小型编译器，基于cbc编译器基础参考修改而写的，cbc编译器使用C和java语言混合而写的，LKCompiler使用JavaCC解析器。
 ==============================================================================================================================================================================================================================================
 
-    This is the LKCompiler,Head-to-head love based on cbc programming language compiler.
+    LKCompiler目前只写了环境安装部分，词法语法少量的实现，后期需要很多语法和词法参与进来，欢迎大家点个stared或者fork,作者有动力造个轮子，初心就是写个编译器，打造一个编程语言玩玩。
 -----------------------------------------------------------------------------------------------------------------------
-Requirements
 
-    To compile cbc itself:
+
+    配置要求前提：
 
         * JDK 1.5 or later
         * JavaCC 4.0 or later
         * ant
         * make
 
-    To run lkc and compiled program:
+    运行安装配置要求
 
-        * Linux 2.4 or later
+        * Linux 2.4以上
         * util-linux (ld-linux.so.2)
-        * GNU libc 2.3 or later
+        * GNU libc 2.3 以上
         * GNU binutils (as, ld)
 
 
-Installation
+安装
 
 
-    To install all files under /usr/local/lkc:
+       安装目录 /usr/local/LKCompiler:
 
         # sudo ./install.sh
-        # sudo ln -s ../lkc/bin/lkc /usr/local/bin/lkc
+        # sudo ln -s ../LKCompiler/bin/LKCompiler /usr/local/bin/LKCompiler
 
-    To install all files under $HOME/lkc:
+       安装好环境配置 $HOME/lkc:
 
-        $ ./install.sh $HOME/lkc
-        $ ln -s ../lkc/bin/lkc $HOME/bin/lkc
+        $ ./install.sh $HOME/LKCompiler
+        $ ln -s ../LKCompiler/bin/LKCompiler $HOME/bin/LKCompiler
 
 
 Build
 
-
-    Edit build.properties for your environment and invoke make:
+     该目录下编辑：
+     make:
 
         $ vi build.properties
         $ make
@@ -45,56 +45,35 @@ Build
 
 Test
 
-    Invoke "make test":
+    测试：
 
         $ make test
 
-    Note that you need bash (not bourne sh) to run test scripts.
-    ksh or zsh may work.
 
 
-Usage
 
+语法使用测试案例以及架构说明：
+   LKC
+   |
+   |----test:启动文件
+         ｜
+         ｜----example:案例例子测试
+   ｜
+   ｜----bin:启动脚本文件
+   ｜
+   ｜----src
+         |
+         |----main
+               |
+               | 
+               ｜----IR：中间代码生成文件
+               ｜
+               ｜----parser：解析文件，词法语法规则的设计
+               ｜
+               ｜----system：系统平台，目前是X86，陆续会增加ARM,RISC-V
+               ｜----compiler:编译器部分核心代码
+               ｜
+               ｜----AST：语法树部分
+               ｜
+               ｜----assembly：汇编语言对象代码
 
-    $ lkc --help
-
-
-License
-
-
-    Modified BSD license.
-    For details of modified BSD license, see following:
-
-    Copyright (c) 2007-2009  Minero Aoki.  All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions
-    are met:
-
-        * Redistributions of source code must retain the above copyright
-          notice, this list of conditions and the following disclaimer.
-        * Redistributions in binary form must reproduce the above
-          copyright notice, this list of conditions and the following
-          disclaimer in the documentation and/or other materials provided
-          with the distribution.
-        * Neither the name of the Minero Aoki nor the names of its
-          contributors may be used to endorse or promote products
-          derived from this software without specific prior written
-          permission.
-
-    THIS SOFTWARE IS PROVIDED BY MINERO AOKI ``AS IS'' AND ANY EXPRESS
-    OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL <copyright holder> BE LIABLE FOR ANY
-    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-    GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
-    IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-    OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-    EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
-Contact
-
-    lkc produced by Minero Aoki <aamine@loveruby.net>.
