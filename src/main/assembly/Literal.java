@@ -1,5 +1,5 @@
 package main.assembly;
-
+// 汇编语言字面量的接口功能继承Comparable
 public interface Literal extends Comparable<Literal> {
     public String toSource();
     public String toSource(SymbolTable table);
