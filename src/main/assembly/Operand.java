@@ -1,8 +1,8 @@
 package main.assembly;
 // 操作指令的抽象类实现指令平台接口
 public abstract class Operand implements OperandPattern {
-    abstract public String toSource(SymbolTable table);
-    abstract public String dump();
+    public abstract String toSource(SymbolTable table);
+    public abstract String dump();
    // 寄存器
     public boolean isRegister() {
         return false;
@@ -16,7 +16,7 @@ public abstract class Operand implements OperandPattern {
         return null;
     }
 
-    abstract public void collectStatistics(Statistics stats);
+    public abstract void collectStatistics(Statistics stats);
 
     // 匹配操作数
     public boolean match(Operand operand) {
