@@ -7,6 +7,7 @@ public interface Literal extends Comparable<Literal> {
     public void collectStatistics(Statistics stats);
     public boolean isZero();
     public Literal plus(long diff);
+    // cmp数据比较指令
     public int cmp(IntegerLiteral i);
     public int cmp(NamedSymbol sym);
     public int cmp(UnnamedSymbol sym);
