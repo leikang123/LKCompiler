@@ -6,8 +6,53 @@ LKCompiler是一个小型编译器，基于cbc编译器基础参考修改而写�
      http://coursegalaxy.com/compilers/learn-design.html
     有基础的话可以了解一下整个架构，从词法设计开始参与进来。
 -----------------------------------------------------------------------------------------------------------------------
+编译器语法规则：
+// 库函数运用Java的import,函数名用c函数库
+import stdio;
+int main(int argc, char **argv)
+{
+    // 打印类似于C语言
+    printf("Hello, World!\n");
+    printf("%s\n", "Hello, World!");
+    puts("Hello, World!");
+    return 0;
+}
+// 数值运算语法：
+import stdio;
 
+static int g = 3;
+static int c;
 
+int main(int argc, char **argv)
+{
+    int i;
+    int j = 0;
+
+    printf("%d",i);
+    printf(";%d",j);
+    i = 2;
+    j = 1;
+    printf(";%d", i++);
+    printf(";%d", j++);
+    printf(";%d", i + g);
+    printf(";%d", f(5));     
+    printf(";%d", f(5) + 1);
+    printf(";%d", f(5) + i);  
+    c = 5;
+    printf(";%d", f(3) + c);
+    i = 9;
+    printf(";%d", f(i));
+    j = 1;
+    printf(";%d", f(i) + j);
+    puts("");
+    return 0;
+}
+
+int f(int i)
+{
+    return i + 1;
+}
+============================================================================================
     配置要求前提：
 
         * JDK 1.5 or later
