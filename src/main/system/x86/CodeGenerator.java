@@ -1,5 +1,19 @@
 package main.system.x86;
 import java.util.*;
+
+import main.assembly.NamedSymbol;
+import main.assembly.Symbol;
+import main.assembly.SymbolTable;
+import main.entity.ConstantEntry;
+import main.entity.DefinedFunction;
+import main.entity.DefinedVariable;
+import main.entity.Entity;
+import main.entity.Function;
+import main.entity.Variable;
+import main.system.AssemblyCode;
+import main.system.CodeGeneratorOptions;
+import main.type.Type;
+import main.utils.ErrorHandler;
 public class CodeGenerator  {
     // 代码生成选项
     final CodeGeneratorOptions options;
@@ -197,7 +211,7 @@ public class CodeGenerator  {
             }
             file._type(sym, "@function");
             file.label(sym);
-            compileFunctionBody(file, func);
+               FunctionBody(file, func);
             file._size(sym, ".-" + sym.toSource());
         }
     }
@@ -525,7 +539,7 @@ public class CodeGenerator  {
             as.call(node.function().callingSymbol());
         }
         else {
-            compile(node.expr());
+            compile(node.expr()); 
             as.callAbsolute(ax());
         }
         // >4 bytes arguments are not supported.
