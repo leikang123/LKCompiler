@@ -227,7 +227,7 @@ public class Parser {
 PARSER_END(Parser)
 /*词法设计规则，跳过空白符*/
 SPECIAL_TOKEN: { <SPACES:{["","\t","\n","\f"]}+>}
-// 扫描状态
+// 扫描注释/* */
 MORE: { <"/*"> : IN_BLOCK_COMMENT }
 <IN_BLOCK_COMMENT> MORE: { <~[]> }
 <IN_BLOCK_COMMENT> SPECIAL_TOKEN: { <BLOCK_COMMENT: "*/"> : DEFAULT }
@@ -298,4 +298,63 @@ TOKEN : {
              >
 
 }
+/*AST Grammar
+*
+*/
+AST compilation_unit() :
+{ 
+    Tokent t;
+    Declarations impdecls,decls;
+}
+{
 
+}
+// import 语句声明 import java.xxx.yyy;
+// declaration意思是声明，statement 语句声明，expression 表达式，term 项
+
+Declarations import_stmts():
+{   
+    // 属性
+    String libid;
+    // 创建对象Declarations
+    Declarations impdecls = new Declarations();
+}
+{
+     (libid = import_stmts()
+     {
+         Declarations decls = loader.LoadLibrary(libid,errorHander);
+         if(decls !=null){
+             impdecls.add(decls);
+             addKnownTypedefs(decls.typedefs()); 
+         }
+
+     }
+     catch (CompilerException ex){
+         throws new ParseException(ex.getMessage());
+
+     }
+     )*
+     {
+         return impdecls;
+     }
+
+}
+// String import_stmts
+String import_stmts():
+{
+    StringBuffer buf = new StringBuffer();
+    String n;
+
+}
+{
+    <IMPORT> n =name(){
+        buf.append(n)
+    }
+    ("." n=name()){
+        buf.append(".");
+        buf.append(n);
+    })*";"
+    {
+        return buf.toString();
+    }
+}
