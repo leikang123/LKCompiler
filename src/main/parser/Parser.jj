@@ -391,13 +391,19 @@ Declarations top_defs():{
      }
 
 }
+// 变量名的规则设计：
 List<DefinedVariable> defvars ():
 {
+    // 创建变量名的对象defs
     List<DefinedVariable> defs  = new ArrayList<DefinedVariable>();
+    // 判断是priv;
     boolean priv;
+    // 类型判断
     TypedefNode type;
+    // 名称
     String name;
-    ExprNade init =null;
+    // 有无初始化默认=null;
+    ExprNode init =null;
 
 }
 {
@@ -406,6 +412,7 @@ List<DefinedVariable> defvars ():
         defs.add(new DefinedVariable(priv,type,name,init));
         init = null;  
 }
+// int a,b;这种表达式
 ("," name = name() ["=" init=expr()]
 {
     defs.add(new DefinedVariable(priv,type,name,init));
@@ -415,4 +422,97 @@ List<DefinedVariable> defvars ():
 {
     return defs;
 
+}
+//常数变量
+Constant defconst ():
+{
+    // 常量定义的规则类型多样，有常量名字，有数字是常量的值，有的常量名称前面修饰词或者类型
+    TypeNode type;
+    String name;
+    ExprNode value;
+}
+{
+    <Constant> type = type() name = name() "=" value =expr() ";"
+    {
+        return new Constant(type,name,value);
+
+    }
+}
+// 方法的规则设计
+DefinedFunction defun():
+{
+    boolean priv;
+    TypeRef ret;
+    String n;
+    Params ps;
+    BlockNode body;
+}
+{
+    priv=storage() ret=typeref() n=name() "(" ps=params() ")" body=block()
+        {
+            TypeRef t = new FunctionTypeRef(ret, ps.parametersTypeRef());
+            return new DefinedFunction(priv, new TypeNode(t), n, ps, body);
+        }
+}
+// storagede 设计规则
+boolean storage():
+{ Token t = null; }
+{
+    [t=<STATIC>] { 
+        return (t == null ? false : true);
+         }
+}
+//参数设计规则：
+Params params():
+{
+    Token t;
+    Params params;
+}
+{
+      LOOKAHEAD(<VOID> ")")
+      t=<VOID>
+        {
+            return new Params(location(t), new ArrayList<Parameter>());
+        }
+    | params=fixedparams()
+            ["," "..." { params.acceptVarargs(); }]
+        {
+            return params;
+        }
+}
+// 
+Params fixedparams():
+{
+    List<Parameter> params = new ArrayList<Parameter>();
+    Parameter param, param1;
+}
+{
+    param1=param() { params.add(param1); }
+    ( LOOKAHEAD(2) "," param=param() { params.add(param); } )*
+        {
+            return new Params(param1.location(), params);
+        }
+}
+
+// 
+Parameter param():
+{
+    TypeNode t;
+    String n;
+}
+{
+    t=type() n=name() { return new Parameter(t, n); }
+}
+// 
+BlockNode block():
+{
+    Token t;
+    List<DefinedVariable> vars;
+    List<StmtNode> stmts;
+}
+{
+    t="{" vars=defvar_list() stmts=stmts() "}"
+        {
+            return new BlockNode(location(t), vars, stmts);
+        }
 }
