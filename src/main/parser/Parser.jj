@@ -358,3 +358,61 @@ String import_stmts():
         return buf.toString();
     }
 }
+// top_defs的规则定义：
+Declarations top_defs():{
+    // 创建声明的对象decls；
+    Declarations decls = new Declarations();
+    // 函数定义对象
+    DefinedFunction defun;
+    // 变量名对象，变量名可以定义多个
+    List<DefinedVariable> defvars;
+    // 常数变量
+    Constant defconst;
+    // 结构体
+    structNode defstruct;
+     // 联合体
+    UnionNode defunion;
+    // 类型定义
+    TypedefNode typedef;
+
+}
+{
+    (LOOKAHEAD(storage() typedef() <IDENTIFIER> "(" )
+     defun()                  {decls.addDefun(defun);}
+     |LOOKAHEAD(3)            
+      defvars()               {decls.addDefvars(defvars);}
+     |defconst()              {decls.addDefconst(defconst);}
+     |defstruct()             {decls.addDefstruct(defstruct);}
+     |defunion()              {decls.addDefunion(defunion);}
+     |typedef()               {decls.addTypedef(typedef);}
+     )*
+     {
+         return decls;
+     }
+
+}
+List<DefinedVariable> defvars ():
+{
+    List<DefinedVariable> defs  = new ArrayList<DefinedVariable>();
+    boolean priv;
+    TypedefNode type;
+    String name;
+    ExprNade init =null;
+
+}
+{
+    priv = storage() type=type() name =name() ["=" init =expr()]
+    { 
+        defs.add(new DefinedVariable(priv,type,name,init));
+        init = null;  
+}
+("," name = name() ["=" init=expr()]
+{
+    defs.add(new DefinedVariable(priv,type,name,init));
+    init =null;
+}
+)* ";"
+{
+    return defs;
+
+}
