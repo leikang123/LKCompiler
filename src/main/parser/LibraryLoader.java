@@ -4,13 +4,16 @@ import main.utils.ErrorHandler;
 import main.exception.*;
 import java.util.*;
 import java.io.*;
-
+// 加载库类
 public class LibraryLoader {
+    // 加载路径
     protected List<String> loadPath;
+    // 加载的库列表
     protected LinkedList<String> loadingLibraries;
+    // 
     protected Map<String, Declarations> loadedLibraries;
 
-    static public List<String> defaultLoadPath() {
+     public static List<String> defaultLoadPath() {
         List<String> pathes = new ArrayList<String>();
         pathes.add(".");
         return pathes;
