@@ -683,3 +683,254 @@ CaseNode default_clause():
             return new CaseNode(body.location(), new ArrayList<ExprNode>(), body);
         }
 }
+// expr表达式的设计规则
+ExprNode expr():
+{
+    ExprNode lhs,rhs,expr;
+    String op;
+}
+{
+    LOOKAHEAD(term() "=")
+      lhs=term() "=" rhs=expr()
+        {
+            return new AssignNode(lhs, rhs);
+        }
+    | LOOKAHEAD(term() opassign_op())
+      lhs=term() op=opassign_op() rhs=expr()
+        {
+            return new OpAssignNode(lhs, op, rhs);
+        }
+    | expr=expr10()
+        {
+            return expr;
+        }
+}
+// 
+String opassign_op(): {}
+{
+    ( "+="  { return "+"; }
+    | "-="  { return "-"; }
+    | "*="  { return "*"; }
+    | "/="  { return "/"; }
+    | "%="  { return "%"; }
+    | "&="  { return "&"; }
+    | "|="  { return "|"; }
+    | "^="  { return "^"; }
+    | "<<=" { return "<<"; }
+    | ">>=" { return ">>"; }
+    )
+}
+
+ExprNode expr10():
+{ ExprNode c, t, e; }
+{
+    c=expr9() ["?" t=expr() ":" e=expr10()
+                    { return new CondExprNode(c, t, e); }]
+        {
+            return c;
+        }
+}
+
+ExprNode expr9():
+{ ExprNode l, r; }
+{
+    l=expr8() ("||" r=expr8() { l = new LogicalOrNode(l, r); })*
+        {
+            return l;
+        }
+}
+
+ExprNode expr8():
+{ ExprNode l, r; }
+{
+    l=expr7() ("&&" r=expr7() { l = new LogicalAndNode(l, r); })*
+        {
+            return l;
+        }
+}
+
+ExprNode expr7():
+{ ExprNode l, r; }
+{
+    l=expr6() ( ">"  r=expr6() { l = new BinaryOpNode(l, ">", r); }
+              | "<"  r=expr6() { l = new BinaryOpNode(l, "<", r); }
+              | ">=" r=expr6() { l = new BinaryOpNode(l, ">=", r); }
+              | "<=" r=expr6() { l = new BinaryOpNode(l, "<=", r); }
+              | "==" r=expr6() { l = new BinaryOpNode(l, "==", r); }
+              | "!=" r=expr6() { l = new BinaryOpNode(l, "!=", r); } )*
+        {
+            return l;
+        }
+}
+
+ExprNode expr6():
+{ ExprNode l, r; }
+{
+    l=expr5() ("|" r=expr5() { l = new BinaryOpNode(l, "|", r); })*
+        {
+            return l;
+        }
+}
+
+ExprNode expr5():
+{ ExprNode l, r; }
+{
+    l=expr4() ("^" r=expr4() { l = new BinaryOpNode(l, "^", r); })*
+        {
+            return l;
+        }
+}
+
+ExprNode expr4():
+{ ExprNode l, r; }
+{
+    l=expr3() ("&" r=expr3() { l = new BinaryOpNode(l, "&", r); })*
+        {
+            return l;
+        }
+}
+// #@@}
+
+// #@@range/expr3{
+ExprNode expr3():
+{ ExprNode l, r; }
+{
+    l=expr2() ( ">>" r=expr2() { l = new BinaryOpNode(l, ">>", r); }
+              | "<<" r=expr2() { l = new BinaryOpNode(l, "<<", r); }
+              )*
+        {
+            return l;
+        }
+}
+
+ExprNode expr2():
+{ ExprNode l, r; }
+{
+    l=expr1() ( "+" r=expr1() { l = new BinaryOpNode(l, "+", r); }
+              | "-" r=expr1() { l = new BinaryOpNode(l, "-", r); }
+              )*
+        {
+            return l;
+        }
+}
+
+ExprNode expr1():
+{ ExprNode l, r; }
+{
+    l=term() ( "*" r=term() { l = new BinaryOpNode(l, "*", r); }
+             | "/" r=term() { l = new BinaryOpNode(l, "/", r); }
+             | "%" r=term() { l = new BinaryOpNode(l, "%", r); }
+             )*
+        {
+            return l;
+        }
+}
+
+ExprNode term():
+{
+    TypeNode t;
+    ExprNode n;
+}
+{
+      LOOKAHEAD("(" type())
+      "(" t=type() ")" n=term()     { return new CastNode(t, n); }
+    | n=unary()                     { return n; }
+}
+// #@@}
+
+// #@@range/unary{
+ExprNode unary():
+{
+    ExprNode n;
+    TypeNode t;
+}
+{
+      "++" n=unary()    { return new PrefixOpNode("++", n); }
+    | "--" n=unary()    { return new PrefixOpNode("--", n); }
+    | "+" n=term()      { return new UnaryOpNode("+", n); }
+    | "-" n=term()      { return new UnaryOpNode("-", n); }
+    | "!" n=term()      { return new UnaryOpNode("!", n); }
+    | "~" n=term()      { return new UnaryOpNode("~", n); }
+    | "*" n=term()      { return new DereferenceNode(n); }
+    | "&" n=term()      { return new AddressNode(n); }
+    | LOOKAHEAD(3) <SIZEOF> "(" t=type() ")"
+        {
+            return new SizeofTypeNode(t, size_t());
+        }
+    | <SIZEOF> n=unary()
+        {
+            return new SizeofExprNode(n, size_t());
+        }
+    | n=postfix()       { return n; }
+}
+
+ExprNode postfix():
+{
+    ExprNode expr, idx;
+    String memb;
+    List<ExprNode> args;
+}
+{
+    expr=primary()
+    ( "++"                  { expr = new SuffixOpNode("++", expr); }
+    | "--"                  { expr = new SuffixOpNode("--", expr); }
+    | "[" idx=expr() "]"    { expr = new ArefNode(expr, idx); }
+    | "." memb=name()       { expr = new MemberNode(expr, memb); }
+    | "->" memb=name()      { expr = new PtrMemberNode(expr, memb); }
+    | "(" args=args() ")"   { expr = new FuncallNode(expr, args); }
+    )*
+        {
+            return expr;
+        }
+}
+
+String name():
+{ Token t; }
+{
+    t=<IDENTIFIER> { return t.image; }
+}
+
+List<ExprNode> args():
+{
+    List<ExprNode> args = new ArrayList<ExprNode>();
+    ExprNode arg;
+}
+{
+    [ arg=expr() { args.add(arg); }
+      ("," arg=expr() { args.add(arg); })* ]
+        {
+            return args;
+        }
+}
+
+ExprNode primary():
+{
+    Token t;
+    ExprNode n;
+}
+{
+      t=<INTEGER>
+        {
+            return integerNode(location(t), t.image);
+        }
+    | t=<CHARACTER>
+        {
+            return new IntegerLiteralNode(location(t),
+                                          IntegerTypeRef.charRef(),
+                                          characterCode(t.image));
+        }
+    | t=<STRING>
+        {
+            return new StringLiteralNode(location(t),
+                new PointerTypeRef(IntegerTypeRef.charRef()),
+                stringValue(t.image));
+        }
+    | t=<IDENTIFIER>
+        {
+            return new VariableNode(location(t), t.image);
+        }
+    | "(" n=expr() ")"
+        {
+            return n;
+        }
+}
