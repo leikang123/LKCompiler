@@ -4,9 +4,11 @@ import ;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.PrintStream;
-
+// 语法树继承节点
 public class AST extends Node {
+    // 加载的源码
     protected Location source;
+    // 
     protected Declarations declarations;
     protected ToplevelScope scope;
     protected ConstantTable constantTable;
