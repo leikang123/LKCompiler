@@ -516,3 +516,44 @@ BlockNode block():
             return new BlockNode(location(t), vars, stmts);
         }
 }
+// 语句的语法设计
+List<StmtNode> stmts():
+{
+    List<StmtNode> st = new ArrayList<StmtNode>();
+    // 表达式节点对象
+    StmtNode s;
+
+}
+{
+    (s=stmt() {
+        if(s!=null) st.add(s);
+        })*
+    {
+        return st;
+    }
+}
+StmtNode stmt():
+{
+    StmtNode m = null;
+    ExprNode e = null;
+
+}
+{
+    ( ";"
+    | LOOKAHEAD(2) m=labeled_stmt()
+    | e=expr() ";" { m = new ExprStmtNode(e.location(), e); }
+    | m=block()
+    | m=if_stmt()
+    | m=while_stmt()
+    | m=dowhile_stmt()
+    | m=for_stmt()
+    | m=switch_stmt()
+    | m=break_stmt()
+    | m=continue_stmt()
+    | m=goto_stmt()
+    | m=return_stmt()
+    )
+        {
+            return m;
+        }
+}
