@@ -1,8 +1,9 @@
 package main.utils;
 import java .io.*;
 
-
+// 错误类
 public class ErrorHandler {
+    // 错误类的各种显示信息
     protected String programId;
     protected PrintStream stream;
     protected long nError;
