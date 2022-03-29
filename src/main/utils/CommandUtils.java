@@ -7,7 +7,7 @@ import main.exception.IPCException;
 import java.io.*;
 
 public abstract class CommandUtils {
-    static public void invoke(List<String> cmdArgs,
+   public static void invoke(List<String> cmdArgs,
             ErrorHandler errorHandler, boolean verbose) throws IPCException {
         if (verbose) {
             dumpCommand(cmdArgs);
