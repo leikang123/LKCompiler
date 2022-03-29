@@ -557,3 +557,129 @@ StmtNode stmt():
             return m;
         }
 }
+LabelNode labeled_stmt():
+{
+Tokent t;
+StmtNode m;
+}
+{
+    t=<IDENTIFIER> ":" m=stmt()
+    {
+        return new LabelNode(location(t),t.image,m);
+
+    }
+}
+IfNode if_stmt():
+{   
+    // 取单词 t;
+    Tokent t;
+    // 表达式节点对象 cond
+    ExprNode cond;
+    // 语句声明对象为空
+    StmtNode thenBody,elseBody = null;
+}
+{
+   t=<IF> "(" cond=expr() ")" "{"  thenBody=stmt() "}" [LOOKAHEAD(1) <ELSE> elseBody=stmt()]
+          {
+              return new IfNode(location(t),cond.thenBody,elseBody);
+
+          }
+}
+WhileNode while_stmt():
+{
+    Tokent t;
+    // 括号内表达式
+    ExprNode cond;
+    // 语句代码
+    StmtNode sn;
+}
+{
+    t=<WHILE> "(" cond=expr() ")" "{" sn=stmt() "}"
+    {
+        return new WhileNode(location(t),cond,sn);
+    }
+}
+DoWhileNode do_while_stmt():
+{
+    Tokent t;
+    ExprNode cond;
+    stmtNode body;
+}
+{
+    t=<DO> "{" body = stmt() "}" <WHILE> "(" cond = expr() ")" "{" body = stmt()"}"
+    {
+        return DoWhileNode(Location(t),cond,body);
+    }
+}
+ForNode for_stmt():
+{
+    tokent t;
+    ExprNode init=null,cond=null,incr=null;
+    stmtNode body;
+
+}
+{
+    t=<FOR> "(" [init = expr()]";"
+                [cond = expr()]";"
+                [incr = expr()]";"
+                ")" "{" body = stmt()"}"
+
+}
+{
+    return ForNode(location(t),init,cond,incr,body);
+}
+SwitchNode switch_stmt():
+{
+    Tokent t;
+    ExprNode cond;
+    List<CaseNode> bodies;
+}
+{
+    t=<SWITCH> "(" cond=expr() ")" "{" <CASE> bodies=case_clauses() "}"
+    {
+    return new SwitchNode(location(t),cond,bodies);
+    }
+}
+List<CaseNode> case_clauses():
+{
+    List<CaseNode> clauses = new ArrayList<CaseNode>();
+    CaseNode cn;
+}
+{
+    (n=case_clause() { clauses.add(n); })*
+            [n=default_clause() { clauses.add(n); }]
+        {
+            return clauses;
+        }
+}
+CaseNode case_clause():
+{
+    List<ExprNode> values;
+    BlockNode body;
+}
+{
+    values=cases() body=case_body()
+        {
+            return new CaseNode(body.location(), values, body);
+        }
+}
+List<ExprNode> cases():
+{
+    List<ExprNode> values = new ArrayList<ExprNode>();
+    ExprNode n;
+}
+{
+    (<CASE> n=primary() ":" { values.add(n); })+
+        {
+            return values;
+        }
+}
+
+CaseNode default_clause():
+{ BlockNode body; }
+{
+    <DEFAULT_> ":" body=case_body()
+        {
+            return new CaseNode(body.location(), new ArrayList<ExprNode>(), body);
+        }
+}
