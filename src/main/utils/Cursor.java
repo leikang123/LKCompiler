@@ -3,9 +3,11 @@ package main.utils;
 import java.util.Iterator;
 import java.io.*;
 import java.util.*;
-
+// 继承遍历类
 public class Cursor<T> implements Iterator {
+    // 列表
     protected List<T> list;
+    // 索引
     protected int index;
 
     public Cursor(List<T> list) {
