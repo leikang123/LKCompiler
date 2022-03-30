@@ -789,9 +789,7 @@ ExprNode expr4():
             return l;
         }
 }
-// #@@}
 
-// #@@range/expr3{
 ExprNode expr3():
 { ExprNode l, r; }
 {
@@ -836,9 +834,7 @@ ExprNode term():
       "(" t=type() ")" n=term()     { return new CastNode(t, n); }
     | n=unary()                     { return n; }
 }
-// #@@}
 
-// #@@range/unary{
 ExprNode unary():
 {
     ExprNode n;
