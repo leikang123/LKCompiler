@@ -1,12 +1,12 @@
 package main.AST;
 import main.entity.*;
-import ;
+import main.IR.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.PrintStream;
 // 语法树继承节点
 public class AST extends Node {
-    // 加载的源码
+    // 加载的源码的位置
     protected Location source;
     // 
     protected Declarations declarations;
@@ -18,7 +18,7 @@ public class AST extends Node {
         this.source = source;
         this.declarations = declarations;
     }
-
+    // 返回对象的位置
     public Location location() {
         return source;
     }
