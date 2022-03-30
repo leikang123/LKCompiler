@@ -1,16 +1,16 @@
 package main.AST;
 import java.io.PrintStream;
 
-abstract public class Node implements Dumpable {
+ public abstract class Node implements Dumpable {
     public Node() {
     }
-
-    abstract public Location location();
-   // 实现功能接口输出
+   // 返回在某节点所对应的语法在代码中的位置方法
+    public abstract Location location();
+   // 文本形式表示抽象语法树的方法
     public void dump() {
         dump(System.out);
     }
-  //实现功能多太
+  //输出语法树的方法，调用这个方法打印语法树
     public void dump(PrintStream s) {
         dump(new Dumper(s));
     }
@@ -20,5 +20,5 @@ abstract public class Node implements Dumpable {
         _dump(d);
     }
 
-    abstract protected void _dump(Dumper d);
+     protected abstract void _dump(Dumper d);
 }
