@@ -1,4 +1,4 @@
-package net.loveruby.cflat.ast;
+package main.AST;
 
 public class LabelNode extends StmtNode {
     protected String name;
