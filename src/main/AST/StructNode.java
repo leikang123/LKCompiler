@@ -1,4 +1,4 @@
-package main.ast;
+package main.AST;
 import main.type.*;
 import java.util.*;
 
