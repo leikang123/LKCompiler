@@ -2,6 +2,7 @@
 options {
 STATIC = false;
 JDK_VERSION = "1.8";
+DEBUG——PARSER =true;
 
 }
 PARSER_BEGIN(Parser)
@@ -10,21 +11,26 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
 
+// parser类的启动类
 public class Parser {
     // 属性
+    // 源代码程序的文件名
     private String sourceName;
+    // 用import关键字导入import文件的加载器
     private LibraryLoader loader;
+    // 处理错误的对象
     private ErrorHandler errorHandler;
+    // 保存用typedef定义的类型名称的表
     private Set<String> knownTypedefs;
 
-    static public AST parseFile(File file,LibraryLoader loader,ErrorHander errorHander)throws SyntaxException
+     public static AST parseFile(File file,LibraryLoader loader,ErrorHander errorHander)throws SyntaxException
     ,FileException{
         return paesrFile(file,loader,errorHander,false);
     }
-    static public Declarations parseDeclFile(File file,LibraryLoader loader,ErrorHander errorHander)throws SyntaxException,FileExceptionP{
+    public static Declarations parseDeclFile(File file,LibraryLoader loader,ErrorHander errorHander)throws SyntaxException,FileExceptionP{
       return parseDeclFile(file,loader,errorHander,false);  
     }
-     static public Declarations parseDeclFile(File file,
+     public static Declarations parseDeclFile(File file,
                                              LibraryLoader loader,
                                              ErrorHandler errorHandler,
                                              boolean debug)
@@ -33,19 +39,19 @@ public class Parser {
         return newFileParser(file, loader, errorHandler, debug).parseDecls();
     }
      // 字符
-    static final public String SOURCE_ENCODING = "UTF-8";
+    public static final String SOURCE_ENCODING = "UTF-8";
 
-    static public Parser newFileParser(File file,
+    public static Parser newFileParser(File file,
                                        LibraryLoader loader,
                                        ErrorHandler errorHandler,
                                        boolean debug)
                                        throws FileException {
         try {
-            BufferedReader r =
-                new BufferedReader(
-                    new InputStreamReader(new FileInputStream(file),
-                                          SOURCE_ENCODING));
-            return new Parser(r, file.getPath(), loader, errorHandler, debug);
+                        FileInputStream fs = new FileInputStream(file);
+                        InputStreamReader is = new InputStreamReader(fs);
+                        BufferedReader br = new BufferedReader(is,SOURCE_ENCODING);
+                        
+            return new Parser(br, file.getPath(), loader, errorHandler, debug);
         }
         catch (FileNotFoundException ex) {
             throw new FileException(ex.getMessage());
@@ -55,14 +61,14 @@ public class Parser {
         }
     }
 
-
+    // 构造方法
     public Parser(Reader s, String name,
                   LibraryLoader loader, ErrorHandler errorHandler) {
         this(s, name, loader, errorHandler, false);
     }
     
 
-
+    // 构造方法，添加新的成员debug，判断debug是否真假
     public Parser(Reader s, String name, LibraryLoader loader,
                   ErrorHandler errorHandler, boolean debug) {
         this(s);
@@ -70,9 +76,11 @@ public class Parser {
         this.loader = loader;
         this.errorHandler = errorHandler;
         this.knownTypedefs = new HashSet<String>();
+        //如果debug为真的话，调用enable_tracing()方法
         if (debug) {
             enable_tracing();
         }
+        // 为假的话，调用disable_tracing()方法
         else {
             disable_tracing();
         }
