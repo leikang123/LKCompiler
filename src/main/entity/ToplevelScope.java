@@ -3,7 +3,7 @@ import main.type.Type;
 import main.utils.ErrorHandler;
 import main.exception.*;
 import java.util.*;
-
+//程序顶层的作用域类，保存函数和全局变量
 public class ToplevelScope extends Scope {
     protected Map<String, Entity> entities;
     protected List<DefinedVariable> staticLocalVariables;   // cache
