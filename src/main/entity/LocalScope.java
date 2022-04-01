@@ -3,8 +3,9 @@ import main.type.Type;
 import main.utils.ErrorHandler;
 import main.exception.*;
 import java.util.*;
-
+// 临时变量的作用域类继承抽象作用域类
 public class LocalScope extends Scope {
+    // 抽象作用域类的属性
     protected Scope parent;
     protected Map<String, DefinedVariable> variables;
 
