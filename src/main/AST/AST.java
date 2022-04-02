@@ -40,14 +40,15 @@ public class AST extends Node {
         result.addAll(declarations.constants);
         return result;
     }
-
+   // 
     public List<Entity> declarations() {
         List<Entity> result = new ArrayList<Entity>();
+        // 函数和变量添加到result
         result.addAll(declarations.funcdecls);
         result.addAll(declarations.vardecls);
         return result;
     }
-
+    // 定义初始化，编译文件的
     public List<Entity> definitions() {
         List<Entity> result = new ArrayList<Entity>();
         result.addAll(declarations.defvars);
