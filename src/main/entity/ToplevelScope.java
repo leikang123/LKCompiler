@@ -26,8 +26,7 @@ public class ToplevelScope extends Scope {
         return null;
     }
 
-    /** Declare variable or function globally. */
-    // #@@range/declareEntity{
+  // 添加声明或自定义
     public void declareEntity(Entity entity) throws SemanticException {
         Entity e = entities.get(entity.name());
         if (e != null) {
@@ -37,10 +36,7 @@ public class ToplevelScope extends Scope {
         }
         entities.put(entity.name(), entity);
     }
-    // #@@}
-
-    /** Define variable or function globally. */
-    // #@@range/defineEntity{
+   
     public void defineEntity(Entity entity) throws SemanticException {
         Entity e = entities.get(entity.name());
         if (e != null && e.isDefined()) {
@@ -50,10 +46,7 @@ public class ToplevelScope extends Scope {
         }
         entities.put(entity.name(), entity);
     }
-    // #@@}
-
-    /** Searches and gets entity searching scopes upto ToplevelScope. */
-    // #@@range/get{
+    
     public Entity get(String name) throws SemanticException {
         Entity ent = entities.get(name);
         if (ent == null) {
