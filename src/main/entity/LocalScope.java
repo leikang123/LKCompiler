@@ -62,13 +62,7 @@ public class LocalScope extends Scope {
             return parent.get(name);
         }
     }
-    // #@@}
-
-    /**
-     * Returns all local variables in this scope.
-     * The result DOES includes all nested local variables,
-     * while it does NOT include static local variables.
-     */
+   
     public List<DefinedVariable> allLocalVariables() {
         List<DefinedVariable> result = new ArrayList<DefinedVariable>();
         for (LocalScope s : allLocalScopes()) {
