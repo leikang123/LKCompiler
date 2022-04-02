@@ -76,7 +76,7 @@ public class LocalResolver extends Visitor {
             func.setScope(popScope());
         }
     }
-    
+    //临时作用域
     public Void visit(BlockNode node) {
         pushScope(node.variables());
         super.visit(node);
