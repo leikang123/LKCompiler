@@ -5,19 +5,18 @@ import main.type.*;
 import main.utils.ErrorHandler;
 import main.exception.*;
 import java.util.*;
-
+// 引用检查类
 public class DereferenceChecker extends Visitor {
-    // #@@range/ctor{
+    // 类型表
     private final TypeTable typeTable;
+    // 错误警告
     private final ErrorHandler errorHandler;
 
     public DereferenceChecker(TypeTable typeTable, ErrorHandler h) {
         this.typeTable = typeTable;
         this.errorHandler = h;
     }
-    // #@@}
-
-    // #@@range/check_AST{
+    // 检查方法
     public void check(AST ast) throws SemanticException {
         for (DefinedVariable var : ast.definedVariables()) {
             checkToplevelVariable(var);
@@ -29,7 +28,6 @@ public class DereferenceChecker extends Visitor {
             throw new SemanticException("compile failed.");
         }
     }
-    // #@@}
 
     private void checkToplevelVariable(DefinedVariable var) {
         checkVariable(var);
@@ -52,13 +50,7 @@ public class DereferenceChecker extends Visitor {
     private void check(ExprNode node) {
         node.accept(this);
     }
-    // #@@}
-
-    //
-    // Statements
-    //
-
-    // #@@range/BlockNode{
+    
     public Void visit(BlockNode node) {
         for (DefinedVariable var : node.variables()) {
             checkVariable(var);
@@ -85,10 +77,6 @@ public class DereferenceChecker extends Visitor {
             }
         }
     }
-
-    //
-    // Assignment Expressions
-    //
 
     public Void visit(AssignNode node) {
         super.visit(node);
@@ -178,7 +166,7 @@ public class DereferenceChecker extends Visitor {
         }
     }
 
-    // #@@range/DereferenceNode{
+    
     public Void visit(DereferenceNode node) {
         super.visit(node);
         if (! node.expr().isPointer()) {
@@ -187,9 +175,7 @@ public class DereferenceChecker extends Visitor {
         handleImplicitAddress(node);
         return null;
     }
-    // #@@}
-
-    // #@@range/AddressNode{
+    
     public Void visit(AddressNode node) {
         super.visit(node);
         if (! node.expr().isLvalue()) {
