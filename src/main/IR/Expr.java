@@ -4,7 +4,7 @@ import main.type.Type;
 import main.assembly.*;
 import main.entity.Entity;
 
-abstract public class Expr implements Dumpable {
+public abstract class Expr implements Dumpable {
     final Type type;
 
     Expr(Type type) {
@@ -30,17 +30,15 @@ abstract public class Expr implements Dumpable {
         throw new Error("Expr#memref called");
     }
 
-    // #@@range/addressNode{
     public Expr addressNode(Type type) {
         throw new Error("unexpected node for LHS: " + getClass());
     }
-    // #@@}
-
+    
     public Entity getEntityForce() {
         return null;
     }
 
-    abstract public <S,E> E accept(IRVisitor<S,E> visitor);
+   public abstract <S,E> E accept(IRVisitor<S,E> visitor);
 
     public void dump(Dumper d) {
         d.printClass(this);
@@ -48,5 +46,5 @@ abstract public class Expr implements Dumpable {
         _dump(d);
     }
 
-    abstract protected void _dump(Dumper d);
+ protected abstract void _dump(Dumper d);
 }
