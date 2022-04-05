@@ -3,9 +3,11 @@ import main.entity.Function;
 import main.entity.Entity;
 import main.assembly.*;
 import java.util.List;
-
+// 函数调用
 public class Call extends Expr {
+    // 表达式
     private Expr expr;
+    // 参数
     private List<Expr> args;
 
     public Call(Type type, Expr expr, List<Expr> args) {
@@ -14,8 +16,12 @@ public class Call extends Expr {
         this.args = args;
     }
 
-    public Expr expr() { return expr; }
-    public List<Expr> args() { return args; }
+    public Expr expr() { 
+        return expr; 
+    }
+    public List<Expr> args() { 
+        return args; 
+    }
 
     public long numArgs() {
         return args.size();
