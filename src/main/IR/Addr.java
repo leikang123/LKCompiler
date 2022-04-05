@@ -6,8 +6,9 @@ import main.assembly.Operand;
 import main.assembly.Type;
 import main.entity.Entity;
 
-
+// 取地址类 &
 public class Addr extends Expr {
+    // 实体类属性定义
     Entity entity;
 
     public Addr(Type type, Entity entity) {
@@ -15,9 +16,13 @@ public class Addr extends Expr {
         this.entity = entity;
     }
 
-    public boolean isAddr() { return true; }
+    public boolean isAddr() { 
+        return true; 
+    }
 
-    public Entity entity() { return entity; }
+    public Entity entity() { 
+        return entity; 
+    }
 
     public Operand address() {
         return entity.address();
