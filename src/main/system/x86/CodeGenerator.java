@@ -1,6 +1,7 @@
 package main.system.x86;
 import java.util.*;
 
+import main.IR.IR;
 import main.assembly.NamedSymbol;
 import main.assembly.Symbol;
 import main.assembly.SymbolTable;
@@ -30,9 +31,9 @@ public class CodeGenerator  {
     }
     
     public AssemblyCode generate(IR ir) {
-        //调用方法
+        //调用方法,确定全局变量，函数，字符串常量地址和符号
         locateSymbols(ir);
-        // 返回 generateAssembly方法
+        // 返回 generateAssembly方法。ir编译成汇编代码
         return generateAssemblyCode(ir);
     }
 
@@ -119,7 +120,7 @@ public class CodeGenerator  {
         return options.isPIERequired() && ent.isDefined();
     }
 
-    // #@@range/generateAssemblyCode{
+   
     private AssemblyCode generateAssemblyCode(IR ir) {
         AssemblyCode file = newAssemblyCode();
         file._file(ir.fileName());
