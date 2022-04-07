@@ -1,6 +1,8 @@
 package main.utils;
 import java .io.*;
 
+import main.AST.Location;
+
 // 错误类
 public class ErrorHandler {
     // 错误类的各种显示信息
