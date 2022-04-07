@@ -1,6 +1,9 @@
 package main.IR;
 import main.assembly.*;
+import main.entity.DefinedFunction;
+import main.entity.DefinedVariable;
 import main.*;
+import main.AST.Location;
 import main.assembly.*;
 import java.util.List;
 import java.io.PrintStream;
@@ -44,11 +47,11 @@ public class Dumper {
         printPair(name, Integer.toHexString(memb.hashCode()));
     }
 
-    public void printMember(String name, net.loveruby.cflat.asm.Type memb) {
+    public void printMember(String name, main.assembly.Type memb) {
         printPair(name, memb.toString());
     }
 
-    public void printMember(String name, net.loveruby.cflat.type.Type memb) {
+    public void printMember(String name, main.type.Type memb) {
         printPair(name, memb.toString());
     }
 
