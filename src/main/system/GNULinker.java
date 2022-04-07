@@ -1,5 +1,10 @@
 package main.system;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import main.utils.ErrorHandler;
+
 public class GNULinker implements Linker{
     // 32bit Linux dependent
         static final private String LINKER = "/usr/bin/ld";
