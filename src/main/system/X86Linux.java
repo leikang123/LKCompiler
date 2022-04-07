@@ -1,5 +1,10 @@
 package main.system;
 
+
+import main.assembly.Type;
+import main.type.TypeTable;
+import main.utils.ErrorHandler;
+
 public class X86Linux implements Platform{
     public TypeTable typeTable() {
         return TypeTable.ilp32();
@@ -7,7 +12,7 @@ public class X86Linux implements Platform{
 
     public CodeGenerator codeGenerator(
             CodeGeneratorOptions opts, ErrorHandler h) {
-        return new net.loveruby.cflat.sysdep.x86.CodeGenerator(
+        return new main.system.CodeGenerator(
                 opts, naturalType(), h);
     }
 
