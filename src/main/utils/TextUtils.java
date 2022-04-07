@@ -1,5 +1,4 @@
 package main.utils;
-import main.parser.Parser;
 import java.io.*;
 
 public abstract class TextUtils {
