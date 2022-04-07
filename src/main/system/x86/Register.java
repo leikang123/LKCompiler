@@ -1,5 +1,8 @@
 package main.system.x86;
 
+import main.assembly.SymbolTable;
+import main.type.Type;
+
 public class Register extends main.assembly.Register{
     public RegisterClass class;
     public Type type;
@@ -39,11 +42,6 @@ public class Register extends main.assembly.Register{
         return class.toString().toLowerCase();
     }
 
-    public String toSource(SymbolTable table) {
-        // GNU assembler dependent
-        return "%" + typedName();
-    }
-
     private String typedName() {
         switch (type) {
         case INT8: return lowerByteRegister();
@@ -69,5 +67,9 @@ public class Register extends main.assembly.Register{
 
     public String dump() {
         return "(Register " +class.toString() + " " + type.toString() + ")";
+    }
+    @Override
+    public String toSource(SymbolTable syms) {
+        return null;
     }
 }
