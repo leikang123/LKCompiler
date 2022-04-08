@@ -1,6 +1,9 @@
 package main.entity;
-import main.AST.TypeNode;
+
+import main.AST.Dumper;
 import main.AST.ExprNode;
+//import main.assembly.Dumper;
+//import main.IR.Dumper;
 
 public class Constant extends Entity {
     private TypeNode type;
@@ -19,7 +22,7 @@ public class Constant extends Entity {
 
     public ExprNode value() { return value; }
 
-    protected void _dump(net.loveruby.cflat.ast.Dumper d) {
+    protected void _dump(Dumper d) {
         d.printMember("name", name);
         d.printMember("typeNode", typeNode);
         d.printMember("value", value);
