@@ -15,7 +15,6 @@ int main(int argc, char **argv)
     // 打印类似于C语言
     printf("Hello, World!\n");
     printf("%s\n", "Hello, World!");
-    puts("Hello, World!");
     return 0;
 }
 // 数值运算语法：
