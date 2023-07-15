@@ -119,7 +119,7 @@ public class AST extends Node {
         }
     }
 
-    static final private int NUM_LEFT_COLUMNS = 24;
+    private static final int NUM_LEFT_COLUMNS = 24;
 
     private void printPair(String key, String value, PrintStream s) {
         s.print(key);
