@@ -25,11 +25,11 @@ public class TypedefNode extends TypeDefinition {
         return real.typeRef();
     }
 
-    // #@@range/definingType{
+   
     public Type definingType() {
         return new UserType(name(), realTypeNode(), location());
     }
-    // #@@}
+    
 
     protected void _dump(Dumper d) {
         d.printMember("name", name);
