@@ -1,7 +1,7 @@
 package main.AST;
 import main.type.*;
 
-abstract public class TypeDefinition extends Node {
+public abstract class TypeDefinition extends Node {
     protected String name;
     protected Location location;
     protected TypeNode typeNode;
@@ -32,6 +32,6 @@ abstract public class TypeDefinition extends Node {
         return typeNode.type();
     }
 
-    abstract public Type definingType();
-    abstract public <T> T accept(DeclarationVisitor<T> visitor);
+     public abstract Type definingType();
+     public abstract <T> T accept(DeclarationVisitor<T> visitor);
 }
