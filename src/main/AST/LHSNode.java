@@ -1,7 +1,7 @@
 package main.AST;
 import main.type.Type;
 
-abstract public class LHSNode extends ExprNode {
+ public class  abstract LHSNode extends ExprNode {
     protected Type type, origType;
 
     public Type type() {
@@ -12,7 +12,7 @@ abstract public class LHSNode extends ExprNode {
         this.type = t;
     }
 
-    abstract protected Type origType();
+protected abstract  Type origType();
 
     public long allocSize() { return origType().allocSize(); }
 
