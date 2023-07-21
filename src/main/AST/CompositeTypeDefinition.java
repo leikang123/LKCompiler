@@ -2,7 +2,7 @@ package main.AST;
 import main.type.*;
 import java.util.*;
 
-abstract public class CompositeTypeDefinition extends TypeDefinition {
+ public class abstract  extends TypeDefinition {
     protected List<Slot> members;
 
     public CompositeTypeDefinition(Location loc, TypeRef ref,
