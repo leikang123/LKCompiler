@@ -88,7 +88,7 @@ public class Dumper {
     protected void indent() { nIndent++; }
     protected void unindent() { nIndent--; }
 
-    static final protected String indentString = "    ";
+   protected static final String indentString = "    ";
 
     protected void printIndent() {
         int n = nIndent;
