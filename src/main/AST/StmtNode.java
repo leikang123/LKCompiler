@@ -1,6 +1,6 @@
 package main.AST;
 
-abstract public class StmtNode extends Node {
+ public abstract class StmtNode extends Node {
     protected Location location;
 
     public StmtNode(Location loc) {
@@ -11,5 +11,5 @@ abstract public class StmtNode extends Node {
         return location;
     }
 
-    abstract public <S,E> S accept(ASTVisitor<S,E> visitor);
+     public abstract <S,E> S accept(ASTVisitor<S,E> visitor);
 }
