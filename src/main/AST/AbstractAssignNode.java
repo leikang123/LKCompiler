@@ -1,7 +1,7 @@
 package main.AST;
 import main.type.*;
 
-abstract public class AbstractAssignNode extends ExprNode {
+ public class abstract AbstractAssignNode extends ExprNode {
     ExprNode lhs, rhs;
 
     public AbstractAssignNode(ExprNode lhs, ExprNode rhs) {
