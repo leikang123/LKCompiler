@@ -15,12 +15,11 @@ public class UnionNode extends CompositeTypeDefinition {
         return true;
     }
 
-    // #@@range/definingType{
+   
     public Type definingType() {
         return new UnionType(name(), members(), location());
     }
-    // #@@}
-
+    
     public <T> T accept(DeclarationVisitor<T> visitor) {
         return visitor.visit(this);
     }
