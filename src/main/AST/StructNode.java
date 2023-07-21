@@ -15,11 +15,10 @@ public class StructNode extends CompositeTypeDefinition {
         return true;
     }
 
-    // #@@range/definingType{
+    
     public Type definingType() {
         return new StructType(name(), members(), location());
     }
-    // #@@}
 
     public <T> T accept(DeclarationVisitor<T> visitor) {
         return visitor.visit(this);
