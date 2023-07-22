@@ -6,10 +6,10 @@ public class SymbolTable {
     protected Map<UnnamedSymbol, String> map;
     protected long seq = 0;
 
-    static private final String DUMMY_SYMBOL_BASE = "L";
-    static private final SymbolTable dummy = new SymbolTable(DUMMY_SYMBOL_BASE);
+    private static final String DUMMY_SYMBOL_BASE = "L";
+    private static  final SymbolTable dummy = new SymbolTable(DUMMY_SYMBOL_BASE);
 
-    static public SymbolTable dummy() {
+    public static SymbolTable dummy() {
         return dummy;
     }
 
