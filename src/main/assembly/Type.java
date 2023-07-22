@@ -4,7 +4,7 @@ public enum Type {
     // 数据类型长度
     INT8, INT16, INT32, INT64;
 
-    static public Type get(long size) {
+    public static Type get(long size) {
         switch ((int)size) {
         case 1:
             return INT8;
