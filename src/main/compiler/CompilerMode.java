@@ -36,11 +36,11 @@ enum CompilerMode {
         modes.put("-c", Assemble);
     }
 
-    static public boolean isModeOption(String opt) {
+    public static boolean isModeOption(String opt) {
         return modes.containsKey(opt);
     }
 
-    static public CompilerMode fromOption(String opt) {
+    public static CompilerMode fromOption(String opt) {
         CompilerMode m = modes.get(opt);
         if (m == null) {
             throw new Error("must not happen: unknown mode option: " + opt);
