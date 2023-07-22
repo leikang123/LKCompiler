@@ -1,6 +1,6 @@
 package main.compiler;
 
-interface LdArg {
+public interface LdArg {
     String toString();
     boolean isSourceFile();
 }
