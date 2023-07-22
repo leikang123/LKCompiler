@@ -5,7 +5,7 @@ public abstract class MemoryReference extends Operand implements Comparable<Memo
         return true;
     }
 
-    abstract public void fixOffset(long diff);
-    abstract protected int cmp(DirectMemoryReference mem);
-    abstract protected int cmp(IndirectMemoryReference mem);
+    protected abstract  void fixOffset(long diff);
+   protected  abstract  int cmp(DirectMemoryReference mem);
+   protected abstract  int cmp(IndirectMemoryReference mem);
 }
