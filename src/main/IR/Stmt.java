@@ -1,7 +1,7 @@
 package main.IR;
 import main.AST.*;
 
-abstract public class Stmt implements Dumpable {
+public abstract  class Stmt implements Dumpable {
     protected Location location;
 
     public Stmt(Location loc) {
@@ -19,5 +19,5 @@ abstract public class Stmt implements Dumpable {
         _dump(d);
     }
 
-    abstract protected void _dump(Dumper d);
+    public abstract void _dump(Dumper d);
 }
