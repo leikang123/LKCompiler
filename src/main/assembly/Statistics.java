@@ -5,7 +5,7 @@ public class Statistics {
     protected Map<String, Integer> insnUsage;
     protected Map<Symbol, Integer> symbolUsage;
 
-    static public Statistics collect(List<Assembly> assemblies) {
+    public static  Statistics collect(List<Assembly> assemblies) {
         Statistics stats = new Statistics();
         for (Assembly asm : assemblies) {
             asm.collectStatistics(stats);
