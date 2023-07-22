@@ -114,7 +114,7 @@ public class Dumper {
     private void indent() { numIndent++; }
     private void unindent() { numIndent--; }
 
-    static final private String indentString = "    ";
+   private  static final String indentString = "    ";
 
     private void printIndent() {
         int n = numIndent;
