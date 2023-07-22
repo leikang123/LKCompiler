@@ -33,7 +33,7 @@ public enum Op {
     S_CAST,
     U_CAST;
 
-    static public Op internBinary(String op, boolean isSigned) {
+   public  static Op internBinary(String op, boolean isSigned) {
         if (op.equals("+")) {
             return Op.ADD;
         }
@@ -87,7 +87,7 @@ public enum Op {
         }
     }
 
-    static public Op internUnary(String op) {
+    public static Op internUnary(String op) {
         if (op.equals("+")) {
             throw new Error("unary+ should not be in IR");
         }
