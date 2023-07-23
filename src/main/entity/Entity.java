@@ -111,4 +111,5 @@ public  abstract class Entity
     }
 
     protected abstract void _dump(net.loveruby.cflat.ast.Dumper d);
+                
 }
