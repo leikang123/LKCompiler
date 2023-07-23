@@ -8,7 +8,7 @@ import main.Assembly.Operand;
 import main.Assembly.MemoryReference;
 import main.Assembly.ImmediateValue;
 
-abstract public class Entity
+public  abstract class Entity
         implements net.loveruby.cflat.ast.Dumpable {
     protected String name;
     protected boolean isPrivate;
@@ -32,8 +32,8 @@ abstract public class Entity
         return name();
     }
 
-    abstract public boolean isDefined();
-    abstract public boolean isInitialized();
+ public   abstract  boolean isDefined();
+  public   abstract  boolean isInitialized();
 
     public boolean isConstant() { return false; }
 
@@ -103,12 +103,12 @@ abstract public class Entity
         return typeNode.location();
     }
 
-    abstract public <T> T accept(EntityVisitor<T> visitor);
+    public abstract <T> T accept(EntityVisitor<T> visitor);
 
     public void dump(net.loveruby.cflat.ast.Dumper d) {
         d.printClass(this, location());
         _dump(d);
     }
 
-    abstract protected void _dump(net.loveruby.cflat.ast.Dumper d);
+    protected abstract void _dump(net.loveruby.cflat.ast.Dumper d);
 }
