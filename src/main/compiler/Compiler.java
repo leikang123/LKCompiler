@@ -12,10 +12,10 @@ import java.io.*;
 // 编译器类
 public class Compiler {
     // #@@range/main{
-    static final public String ProgramName = "cbc";
-    static final public String Version = "1.0.0";
+  public static final String ProgramName = "cbc";
+    public static final String Version = "1.0.0";
     // 主方法，入口
-    static public void main(String[] args) {
+    public static void main(String[] args) {
     	// 新的编译器函数带参数cbc,调用commmandMain的参数
         new Compiler(ProgramName).commandMain(args);
     }
