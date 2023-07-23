@@ -6,7 +6,7 @@ import main.Assembly.Symbol;
 import main.Assembly.Label;
 import java.util.List;
 
-abstract public class Function extends Entity {
+public abstract class Function extends Entity {
     protected Symbol callingSymbol;
     protected Label label;
 
@@ -16,8 +16,8 @@ abstract public class Function extends Entity {
 
     public boolean isInitialized() { return true; }
 
-    abstract public boolean isDefined();
-    abstract public List<Parameter> parameters();
+   public  abstract  boolean isDefined();
+    public abstract  List<Parameter> parameters();
 
     public Type returnType() {
         return type().getFunctionType().returnType();
