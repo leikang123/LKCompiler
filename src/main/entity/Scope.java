@@ -12,7 +12,7 @@ public abstract class Scope {
     }
    // 抽象功能方法
    // 判断是否是顶部作用域方法
-    abstract  boolean isToplevel();
+    boolean abstract isToplevel();
     // 
     abstract  ToplevelScope toplevel();
     abstract  Scope parent();
