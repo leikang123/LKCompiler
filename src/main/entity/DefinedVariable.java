@@ -18,7 +18,7 @@ public class DefinedVariable extends Variable {
         sequence = -1;
     }
 
-    static private long tmpSeq = 0;
+    private static long tmpSeq = 0;
 
     static public DefinedVariable tmp(Type t) {
         return new DefinedVariable(false,
