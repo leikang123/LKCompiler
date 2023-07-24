@@ -36,7 +36,7 @@ public abstract class CommandUtils {
         }
     }
 
-    static private void dumpCommand(List<String> args) {
+   private static void dumpCommand(List<String> args) {
         String sep = "";
         for (String arg : args) {
             System.out.print(sep); sep = " ";
@@ -45,7 +45,7 @@ public abstract class CommandUtils {
         System.out.println("");
     }
 
-    static private void passThrough(InputStream s) throws IOException {
+    private static void passThrough(InputStream s) throws IOException {
         BufferedReader r = new BufferedReader(new InputStreamReader(s));
         String line;
         while ((line = r.readLine()) != null) {
