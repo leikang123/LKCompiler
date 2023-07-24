@@ -2,9 +2,9 @@ package main.utils;
 import java.io.*;
 
 public abstract class TextUtils {
-    static final private byte vtab = 013;
+   private static final byte vtab = 013;
 
-    static public String dumpString(String str) {
+    public static  String dumpString(String str) {
         try {
             return dumpString(str, Parser.SOURCE_ENCODING);
         }
@@ -13,7 +13,7 @@ public abstract class TextUtils {
         }
     }
 
-    static public String dumpString(String string, String encoding)
+    public static String dumpString(String string, String encoding)
             throws UnsupportedEncodingException {
         byte[] src = string.getBytes(encoding);
         StringBuffer buf = new StringBuffer();
@@ -36,11 +36,11 @@ public abstract class TextUtils {
         return buf.toString();
     }
 
-    static private int toUnsigned(byte b) {
+    private static  int toUnsigned(byte b) {
         return b >= 0 ? b : 256 + b;
     }
 
-    static public boolean isPrintable(int c) {
+    public static  boolean isPrintable(int c) {
         return (' ' <= c) && (c <= '~');
     }
 }
