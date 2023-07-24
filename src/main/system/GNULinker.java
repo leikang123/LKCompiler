@@ -7,12 +7,12 @@ import main.utils.ErrorHandler;
 
 public class GNULinker implements Linker{
     // 32bit Linux dependent
-        static final private String LINKER = "/usr/bin/ld";
-        static final private String DYNAMIC_LINKER      = "/lib/ld-linux.so.2";
-        static final private String C_RUNTIME_INIT      = "/usr/lib/crti.o";
-        static final private String C_RUNTIME_START     = "/usr/lib/crt1.o";
-        static final private String C_RUNTIME_START_PIE = "/usr/lib/Scrt1.o";
-        static final private String C_RUNTIME_FINI      = "/usr/lib/crtn.o";
+       private  static final  String LINKER = "/usr/bin/ld";
+       private   static final  String DYNAMIC_LINKER      = "/lib/ld-linux.so.2";
+      private  static final  String C_RUNTIME_INIT      = "/usr/lib/crti.o";
+      private  static final  String C_RUNTIME_START     = "/usr/lib/crt1.o";
+       private static final  String C_RUNTIME_START_PIE = "/usr/lib/Scrt1.o";
+        private static final  String C_RUNTIME_FINI      = "/usr/lib/crtn.o";
         
     
         ErrorHandler errorHandler;
