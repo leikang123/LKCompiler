@@ -3,7 +3,7 @@ package main.type;
 public abstract class Type {
     public static final long sizeUnknown = -1;
 
-    abstract public long size();
+    public abstract  long size();
     public long allocSize() { return size(); }
     public long alignment() { return allocSize(); }
 
