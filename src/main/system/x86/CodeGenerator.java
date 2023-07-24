@@ -107,15 +107,15 @@ public class CodeGenerator  {
             return shouldUsePLT(func) ? PLTSymbol(sym) : sym;
         }
     }
-    // #@@}
+    
 
-    // #@@range/shouldUsePLT{
+   
     private boolean shouldUsePLT(Entity ent) {
         return options.isPositionIndependent() && !optimizeGvarAccess(ent);
     }
-    // #@@}
+  
 
-    // #@@range/optimizeGvarAccess{
+    
     private boolean optimizeGvarAccess(Entity ent) {
         return options.isPIERequired() && ent.isDefined();
     }
@@ -256,7 +256,7 @@ public class CodeGenerator  {
     private Symbol PICThunkSymbol(Register reg) {
         return new NamedSymbol("__i686.get_pc_thunk." + reg.baseName());
     }
-    // #@@}
+   
 
     static private final String
     PICThunkSectionFlags = SectionFlag_allocatable
@@ -280,23 +280,18 @@ public class CodeGenerator  {
     }
     
 
-    // #@@range/stackParams{
+   
     static final private long STACK_WORD_SIZE = 4;
-    // #@@}
-
-    // #@@range/alignStack{
+    
     private long alignStack(long size) {
         return AsmUtils.align(size, STACK_WORD_SIZE);
     }
-    // #@@}
-
-    // #@@range/stackSizeFromWordNum{
+    
+  
     private long stackSizeFromWordNum(long numWords) {
         return numWords * STACK_WORD_SIZE;
     }
-    // #@@}
-
-    // #@@range/StackFrameInfo{
+  
     class StackFrameInfo {
         List<Register> saveRegs;
         long lvarSize;
@@ -307,17 +302,13 @@ public class CodeGenerator  {
         long tempOffset() { return saveRegsSize() + lvarSize; }
         long frameSize() { return saveRegsSize() + lvarSize + tempSize; }
     }
-    // #@@}
-
-    // #@@range/compileFunctionBody{
+    
     private void compileFunctionBody(AssemblyCode file, DefinedFunction func) {
         StackFrameInfo frame = new StackFrameInfo();
         // #@@range/cfb_locate{
         locateParameters(func.parameters());
         frame.lvarSize = locateLocalVariables(func.lvarScope());
-        // #@@}
-
-        // #@@range/cfb_offset{
+        
         AssemblyCode body = optimize(compileStmts(func));
         frame.saveRegs = usedCalleeSaveRegisters(body);
         frame.tempSize = body.virtualStack.maxSize();
@@ -340,7 +331,7 @@ public class CodeGenerator  {
         body.reduceLabels();
         return body;
     }
-    // #@@}
+   
 
     private void printStackFrameLayout(AssemblyCode file,
             StackFrameInfo frame, List<DefinedVariable> lvars) {
@@ -380,7 +371,7 @@ public class CodeGenerator  {
         }
     }
 
-    // #@@range/compileStmts{
+    
     private AssemblyCode as;
     private Label epilogue;
 
@@ -476,26 +467,22 @@ public class CodeGenerator  {
             len = alignStack(len + var.allocSize());
             var.setMemref(relocatableMem(-len, bp()));
         }
-        // #@@}
-
-        // #@@range/locateLocalVariables_child{
+        
         long maxLen = len;
         for (LocalScope s : scope.children()) {
             long childLen = locateLocalVariables(s, len);
             maxLen = Math.max(maxLen, childLen);
         }
         return maxLen;
-        // #@@}
+        
     }
-    // #@@}
+  
 
-    // #@@range/relocatableMem{
+    
     private IndirectMemoryReference relocatableMem(long offset, Register base) {
         return IndirectMemoryReference.relocatable(offset, base);
     }
-    // #@@}
-
-    // #@@range/fixLocalVariableOffsets{
+    
     private void fixLocalVariableOffsets(LocalScope scope, long len) {
         for (DefinedVariable var : scope.allLocalVariables()) {
             var.memref().fixOffset(-len);
@@ -507,30 +494,19 @@ public class CodeGenerator  {
     private void fixTempVariableOffsets(AssemblyCode asm, long len) {
         asm.virtualStack.fixOffset(-len);
     }
-    // #@@}
-
-    // #@@range/extendStack{
+    
     private void extendStack(AssemblyCode file, long len) {
         if (len > 0) {
             file.sub(imm(len), sp());
         }
     }
-    // #@@}
-
-    // #@@range/rewindStack{
+   
     private void rewindStack(AssemblyCode file, long len) {
         if (len > 0) {
             file.add(imm(len), sp());
         }
     }
-    // #@@}
-
-    /**
-     * Implements cdecl function call:
-     *    * All arguments are on stack.
-     *    * Caller rewinds stack pointer.
-     */
-    // #@@range/Call{
+ 
     public Void visit(Call node) {
         for (Expr arg : ListUtils.reverse(node.args())) {
             compile(arg);
@@ -547,9 +523,7 @@ public class CodeGenerator  {
         rewindStack(as, stackSizeFromWordNum(node.numArgs()));
         return null;
     }
-    // #@@}
 
-    // #@@range/Return{
     public Void visit(Return node) {
         if (node.expr() != null) {
             compile(node.expr());
@@ -557,13 +531,8 @@ public class CodeGenerator  {
         as.jmp(epilogue);
         return null;
     }
-    // #@@}
-
-    //
-    // Statements
-    //
-
-    // #@@range/compileStmt{
+  
+   
     private void compileStmt(Stmt stmt) {
         if (options.isVerboseAsm()) {
             if (stmt.location() != null) {
@@ -572,30 +541,22 @@ public class CodeGenerator  {
         }
         stmt.accept(this);
     }
-    // #@@}
-
-    // #@@range/ExprStmt{
+    
     public Void visit(ExprStmt stmt) {
         compile(stmt.expr());
         return null;
     }
-    // #@@}
-
-    // #@@range/LabelStmt{
+   
     public Void visit(LabelStmt node) {
         as.label(node.label());
         return null;
     }
-    // #@@}
-
-    // #@@range/Jump{
+   
     public Void visit(Jump node) {
         as.jmp(node.label());
         return null;
     }
-    // #@@}
-
-    // #@@range/CJump{
+   
     public Void visit(CJump node) {
         compile(node.cond());
         Type t = node.cond().type();
@@ -604,8 +565,7 @@ public class CodeGenerator  {
         as.jmp(node.elseLabel());
         return null;
     }
-    // #@@}
-
+  
     public Void visit(Switch node) {
         compile(node.cond());
         Type t = node.cond().type();
@@ -618,11 +578,6 @@ public class CodeGenerator  {
         return null;
     }
 
-    //
-    // Expressions
-    //
-
-    // #@@range/compile{
     private void compile(Expr n) {
         if (options.isVerboseAsm()) {
             as.comment(n.getClass().getSimpleName() + " {");
@@ -634,19 +589,17 @@ public class CodeGenerator  {
             as.comment("}");
         }
     }
-    // #@@}
-
-    // #@@range/Bin{
+    
     public Void visit(Bin node) {
         // #@@range/Bin_init{
         Op op = node.op();
         Type t = node.type();
-        // #@@}
+      
         if (node.right().isConstant() && !doesRequireRegisterOperand(op)) {
             // #@@range/Bin_const{
             compile(node.left());
             compileBinaryOp(op, ax(t), node.right().asmValue());
-            // #@@}
+         
         }
         else if (node.right().isConstant()) {
             compile(node.left());
@@ -672,19 +625,17 @@ public class CodeGenerator  {
             compileBinaryOp(op, ax(t), cx(t));
         }
         else {
-            // #@@range/Bin_generic{
+          
             compile(node.right());
             as.virtualPush(ax());
             compile(node.left());
             as.virtualPop(cx());
             compileBinaryOp(op, ax(t), cx(t));
-            // #@@}
+            
         }
         return null;
     }
-    // #@@}
-
-    // #@@range/doesRequireRegisterOperand{
+    
     private boolean doesRequireRegisterOperand(Op op) {
         switch (op) {
         case S_DIV:
@@ -699,9 +650,7 @@ public class CodeGenerator  {
             return false;
         }
     }
-    // #@@}
-
-    // #@@range/compileBinaryOp_begin{
+    
     private void compileBinaryOp(Op op, Register left, Operand right) {
         // #@@range/compileBinaryOp_arithops{
         switch (op) {
@@ -711,11 +660,11 @@ public class CodeGenerator  {
         case SUB:
             as.sub(right, left);
             break;
-    // #@@range/compileBinaryOp_begin}
+    
         case MUL:
             as.imul(right, left);
             break;
-            // #@@range/compileBinaryOp_sdiv{
+           
         case S_DIV:
         case S_MOD:
             as.cltd();
@@ -723,7 +672,7 @@ public class CodeGenerator  {
             if (op == Op.S_MOD) {
                 as.mov(dx(), left);
             }
-            // #@@}
+           
             break;
         case U_DIV:
         case U_MOD:
@@ -733,8 +682,7 @@ public class CodeGenerator  {
                 as.mov(dx(), left);
             }
             break;
-        // #@@}
-        // #@@range/compileBinaryOp_bitops{
+        
         case BIT_AND:
             as.and(right, left);
             break;
@@ -753,8 +701,7 @@ public class CodeGenerator  {
         case ARITH_RSHIFT:
             as.sar(cl(), left);
             break;
-        // #@@}
-        // #@@range/compileBinaryOp_cmpops{
+        
         default:
             // Comparison operators
             as.cmp(right, ax(left.type));
@@ -774,10 +721,9 @@ public class CodeGenerator  {
             }
             as.movzx(al(), left);
         }
-        // #@@}
     }
 
-    // #@@range/Uni{
+    
     public Void visit(Uni node) {
         Type src = node.expr().type();
         Type dest = node.type();
@@ -791,11 +737,11 @@ public class CodeGenerator  {
             as.not(ax(src));
             break;
         case NOT:
-            // #@@range/Uni_not{
+           
             as.test(ax(src), ax(src));
             as.sete(al());
             as.movzx(al(), ax(dest));
-            // #@@}
+           
             break;
         case S_CAST:
             as.movsx(ax(src), ax(dest));
@@ -808,34 +754,22 @@ public class CodeGenerator  {
         }
         return null;
     }
-    // #@@}
-
-    // #@@range/Var{
+   
     public Void visit(Var node) {
         loadVariable(node, ax());
         return null;
     }
-    // #@@}
-
-    // #@@range/Int{
+    
     public Void visit(Int node) {
         as.mov(imm(node.value()), ax());
         return null;
     }
-    // #@@}
-
-    // #@@range/Str{
+   
     public Void visit(Str node) {
         loadConstant(node, ax());
         return null;
     }
-    // #@@}
-
-    //
-    // Assignable expressions
-    //
-
-    // #@@range/Assign{
+   
     public Void visit(Assign node) {
         if (node.lhs().isAddr() && node.lhs().memref() != null) {
             compile(node.rhs());
