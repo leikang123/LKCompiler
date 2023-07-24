@@ -1,13 +1,13 @@
 package main.type;
 
 public abstract class Type {
-    static final public long sizeUnknown = -1;
+    public static final long sizeUnknown = -1;
 
     abstract public long size();
     public long allocSize() { return size(); }
     public long alignment() { return allocSize(); }
 
-    abstract public boolean isSameType(Type other);
+    public  abstract boolean isSameType(Type other);
 
     public boolean isVoid() { return false; }
     public boolean isInt() { return false; }
@@ -29,8 +29,8 @@ public abstract class Type {
     public boolean isCallable() { return false; }
 
     // Ability methods (binary)
-    abstract public boolean isCompatible(Type other);
-    abstract public boolean isCastableTo(Type target);
+    public abstract  boolean isCompatible(Type other);
+    public abstract  boolean isCastableTo(Type target);
 
     public Type baseType() {
         throw new SemanticError("#baseType called for undereferable type");
