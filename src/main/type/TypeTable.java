@@ -5,12 +5,12 @@ import main.exception.*;
 import java.util.*;
 
 public class TypeTable {
-    static public TypeTable ilp32() { return newTable(1, 2, 4, 4, 4); }
-    static public TypeTable ilp64() { return newTable(1, 2, 8, 8, 8); }
-    static public TypeTable lp64()  { return newTable(1, 2, 4, 8, 8); }
-    static public TypeTable llp64() { return newTable(1, 2, 4, 4, 8); }
+   public static  TypeTable ilp32() { return newTable(1, 2, 4, 4, 4); }
+   public static  TypeTable ilp64() { return newTable(1, 2, 8, 8, 8); }
+   public static  TypeTable lp64()  { return newTable(1, 2, 4, 8, 8); }
+   public static  TypeTable llp64() { return newTable(1, 2, 4, 4, 8); }
 
-    static private TypeTable newTable(int charsize, int shortsize,
+    private static TypeTable newTable(int charsize, int shortsize,
                                       int intsize, int longsize, int ptrsize) {
         TypeTable table = new TypeTable(intsize, longsize, ptrsize);
         table.put(new VoidTypeRef(), new VoidType());
