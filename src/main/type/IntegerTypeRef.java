@@ -6,63 +6,63 @@ public class IntegerTypeRef {
         return new IntegerTypeRef("char", loc);
     }
 
-    static public IntegerTypeRef charRef() {
+  public  static  IntegerTypeRef charRef() {
         return new IntegerTypeRef("char");
     }
 
-    static public IntegerTypeRef shortRef(Location loc) {
+    public static  IntegerTypeRef shortRef(Location loc) {
         return new IntegerTypeRef("short", loc);
     }
 
-    static public IntegerTypeRef shortRef() {
+    public static  IntegerTypeRef shortRef() {
         return new IntegerTypeRef("short");
     }
 
-    static public IntegerTypeRef intRef(Location loc) {
+    public static IntegerTypeRef intRef(Location loc) {
         return new IntegerTypeRef("int", loc);
     }
 
-    static public IntegerTypeRef intRef() {
+    public static  IntegerTypeRef intRef() {
         return new IntegerTypeRef("int");
     }
 
-    static public IntegerTypeRef longRef(Location loc) {
+    public static  IntegerTypeRef longRef(Location loc) {
         return new IntegerTypeRef("long", loc);
     }
 
-    static public IntegerTypeRef longRef() {
+    public static IntegerTypeRef longRef() {
         return new IntegerTypeRef("long");
     }
 
-    static public IntegerTypeRef ucharRef(Location loc) {
+    public static  IntegerTypeRef ucharRef(Location loc) {
         return new IntegerTypeRef("unsigned char", loc);
     }
 
-    static public IntegerTypeRef ucharRef() {
+    public static  IntegerTypeRef ucharRef() {
         return new IntegerTypeRef("unsigned char");
     }
 
-    static public IntegerTypeRef ushortRef(Location loc) {
+    public static IntegerTypeRef ushortRef(Location loc) {
         return new IntegerTypeRef("unsigned short", loc);
     }
 
-    static public IntegerTypeRef ushortRef() {
+    public static  IntegerTypeRef ushortRef() {
         return new IntegerTypeRef("unsigned short");
     }
 
-    static public IntegerTypeRef uintRef(Location loc) {
+    public static IntegerTypeRef uintRef(Location loc) {
         return new IntegerTypeRef("unsigned int", loc);
     }
 
-    static public IntegerTypeRef uintRef() {
+    public static IntegerTypeRef uintRef() {
         return new IntegerTypeRef("unsigned int");
     }
 
-    static public IntegerTypeRef ulongRef(Location loc) {
+    public static  IntegerTypeRef ulongRef(Location loc) {
         return new IntegerTypeRef("unsigned long", loc);
     }
 
-    static public IntegerTypeRef ulongRef() {
+    public static IntegerTypeRef ulongRef() {
         return new IntegerTypeRef("unsigned long");
     }
 
