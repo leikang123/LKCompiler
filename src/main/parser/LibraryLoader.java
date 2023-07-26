@@ -10,9 +10,9 @@ public class LibraryLoader {
     protected List<String> loadPath;
     // 加载的库列表
     protected LinkedList<String> loadingLibraries;
-    // 
+    // 加载库声明
     protected Map<String, Declarations> loadedLibraries;
-
+    //默认加载字符列表
      public static List<String> defaultLoadPath() {
         List<String> pathes = new ArrayList<String>();
         pathes.add(".");
@@ -28,7 +28,7 @@ public class LibraryLoader {
         this.loadingLibraries = new LinkedList<String>();
         this.loadedLibraries = new HashMap<String, Declarations>();
     }
-
+ //添加家在路径方法
     public void addLoadPath(String path) {
         loadPath.add(path);
     }
