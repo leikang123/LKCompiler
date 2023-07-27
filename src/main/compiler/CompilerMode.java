@@ -19,7 +19,7 @@ enum CompilerMode {
     Assemble ("-c"),
     Link ("--link");
 
-    static private Map<String, CompilerMode> modes;
+  private  static Map<String, CompilerMode> modes;
     static {
         modes = new HashMap<String, CompilerMode>();
         modes.put("--check-syntax", CheckSyntax);
