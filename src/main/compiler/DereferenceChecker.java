@@ -42,7 +42,6 @@ public class DereferenceChecker extends Visitor {
         }
     }
 
-    // #@@range/check{
     private void check(StmtNode node) {
         node.accept(this);
     }
@@ -65,7 +64,7 @@ public class DereferenceChecker extends Visitor {
         }
         return null;
     }
-    // #@@}
+    
 
     private void checkVariable(DefinedVariable var) {
         if (var.hasInitializer()) {
@@ -191,7 +190,7 @@ public class DereferenceChecker extends Visitor {
         }
         return null;
     }
-    // #@@}
+    
 
     public Void visit(VariableNode node) {
         super.visit(node);
