@@ -749,11 +749,11 @@ public class IRGenerator implements ASTVisitor<Void, Expr> {
     }
     
 
-    // #@@range/ref{
+   
     private Var ref(Entity ent) {
         return new Var(varType(ent.type()), ent);
     }
-    // #@@}
+   
 
     // mem(ent) -> (Mem (Var ent))
     private Mem mem(Entity ent) {
@@ -761,7 +761,7 @@ public class IRGenerator implements ASTVisitor<Void, Expr> {
     }
 
     // mem(expr) -> (Mem expr)
-    // #@@range/mem{
+   
     private Mem mem(Expr expr, Type t) {
         return new Mem(asmType(t), expr);
     }
