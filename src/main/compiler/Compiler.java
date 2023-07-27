@@ -25,7 +25,6 @@ public class Compiler {
     public Compiler(String programName) {
         this.errorHandler = new ErrorHandler(programName);
     }
-    // #@@}
      // commandMain()函数
     public void commandMain(String[] args) {
     	// 解析选择方法带参数传给options
@@ -109,7 +108,7 @@ public class Compiler {
         if (! opts.isLinkRequired()) return;
         link(opts);
     }
-    // #@@}
+  
     // 编译器方法实现
     /**
      * 
@@ -169,9 +168,9 @@ public class Compiler {
         opts.assembler(errorHandler)
             .assemble(srcPath, destPath, opts.asOptions());
     }
-    // #@@}
+   
 
-    // #@@range/link{
+  
     public void link(Options opts) throws IPCException {
         if (! opts.isGeneratingSharedLibrary()) {
             generateExecutable(opts);
@@ -180,21 +179,21 @@ public class Compiler {
             generateSharedLibrary(opts);
         }
     }
-    // #@@}
+    
 
-    // #@@range/generateExecutable{
+   
     public void generateExecutable(Options opts) throws IPCException {
         opts.linker(errorHandler).generateExecutable(
                 opts.ldArgs(), opts.exeFileName(), opts.ldOptions());
     }
-    // #@@}
+  
 
     // #@@range/generateSharedLibrary{
     public void generateSharedLibrary(Options opts) throws IPCException {
         opts.linker(errorHandler).generateSharedLibrary(
                 opts.ldArgs(), opts.soFileName(), opts.ldOptions());
     }
-    // #@@}
+   
 
     private void writeFile(String path, String str) throws FileException {
         if (path.equals("-")) {
