@@ -27,7 +27,7 @@ public class Addr extends Expr {
     public Operand address() {
         return entity.address();
     }
-
+    //内存引用
     public MemoryReference memref() {
         return entity.memref();
     }
@@ -39,7 +39,7 @@ public class Addr extends Expr {
     public <S,E> E accept(IRVisitor<S,E> visitor) {
         return visitor.visit(this);
     }
-
+  // 打印
     protected void _dump(Dumper d) {
         d.printMember("entity", entity.name());
     }
