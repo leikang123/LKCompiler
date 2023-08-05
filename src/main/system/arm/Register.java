@@ -53,7 +53,7 @@ public class Register extends main.assembly.Register{
         }
     }
 
-    private String lowerByteRegister() {
+    /*private String lowerByteRegister() {
         switch (class) {
         case AX:
         case BX:
@@ -63,7 +63,7 @@ public class Register extends main.assembly.Register{
         default:
             throw new Error("does not have lower-byte register: " + _class);
         }
-    }
+    }*/
 
     public String dump() {
         return "(Register " +class.toString() + " " + type.toString() + ")";
