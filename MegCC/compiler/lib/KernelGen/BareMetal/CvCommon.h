@@ -1,0 +1,27 @@
+#pragma once
+#include "Utils/SymbolHelper.h"
+#include "Utils/Utils.h"
+namespace megcc {
+namespace KernelGen {
+namespace BareMetal {
+
+class CVKernelImpl : public KernelFunc {
+public:
+    bool IsAvailable(TContext* context) const override { return false; };
+    std::string GetKernelBody(TContext* context) const override { return ""; };
+    std::string GetKernelSymbol(TContext* context) const override { return ""; };
+    virtual std::string GetCVKernelSubSymbol(TContext* context) const {
+        CC_ABORT << "must impl cv subsymbol";
+        return "";
+    };
+    std::string GetCVKernelSymbol(TContext* context) const override final {
+        std::stringstream ss;
+        Utils::cv_kern_sym_add_prefix(context, "naive", ss);
+        ss << GetCVKernelSubSymbol(context);
+        return ss.str();
+    };
+};
+
+}  // namespace BareMetal
+}  // namespace KernelGen
+}  // namespace megcc

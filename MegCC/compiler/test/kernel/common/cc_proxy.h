@@ -1,0 +1,39 @@
+#pragma once
+#include "compiler/KernelGen/KernelGen.h"
+#include "megdnn/oprs.h"
+#include "test/kernel/common/performance.h"
+#include "test/kernel/common/target_module.h"
+
+using TensorNDArray = megdnn::SmallVector<megdnn::TensorND>;
+
+namespace megcc {
+namespace test {
+namespace {
+struct OutputScope {
+    //! [start, end]
+    int start;
+    int end;
+    void normalize(int len) {
+        start = start < 0 ? start + len : start;
+        end = end < 0 ? end + len : end;
+    }
+};
+
+}  // namespace
+template <typename Opr>
+struct CCOprProxy {
+    PerformanceResult exec(
+            Opr* opr, const TensorNDArray& tensors, KernelGen::Arch arch,
+            const BenchmarkOption& benchmark_option, const std::string& kernel_symbol,
+            const std::unordered_map<std::string, CCAttr>& proxy_attr,
+            bool gen_dynamic);
+
+    OutputScope get_output_idx(Opr*);
+};
+
+void fused_elemwise_exec(
+        const TensorNDArray& tensors, KernelGen::Arch arch,
+        std::unordered_map<std::string, CCAttr>& proxy_attr, const std::string& symbol);
+
+}  // namespace test
+}  // namespace megcc

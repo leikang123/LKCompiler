@@ -1,0 +1,8 @@
+add_subdirectory(megcc-opt)
+add_subdirectory(mgb-runner)
+add_subdirectory(mgb-importer)
+add_subdirectory(mgb-to-tinynn)
+add_subdirectory(tinynn-exporter)
+add_subdirectory(dump-kernel)
+add_subdirectory(megcc-translate)
+add_subdirectory(kernel_exporter)

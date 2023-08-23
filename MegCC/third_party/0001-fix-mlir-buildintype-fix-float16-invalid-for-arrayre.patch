@@ -1,0 +1,25 @@
+From 6efb8ebb5bf18b69b10c718f6ff537574cb3d03e Mon Sep 17 00:00:00 2001
+From: yuxiongxiong <yuxiongxiong@megvii.com>
+Date: Wed, 22 Mar 2023 16:29:56 +0800
+Subject: [PATCH] fix(mlir/buildintype): fix float16 invalid for arrayref
+
+---
+ mlir/lib/IR/BuiltinAttributes.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/mlir/lib/IR/BuiltinAttributes.cpp b/mlir/lib/IR/BuiltinAttributes.cpp
+index 79e80f7c1317..ddc5992f7a54 100644
+--- a/mlir/lib/IR/BuiltinAttributes.cpp
++++ b/mlir/lib/IR/BuiltinAttributes.cpp
+@@ -828,6 +828,8 @@ static bool isValidIntOrFloat(Type type, int64_t dataEltSize, bool isInt,
+       static_cast<size_t>(dataEltSize * CHAR_BIT))
+     return false;
+ 
++  if (type.isF16() && isInt && isSigned)
++    return true;
+   // Check that the element type is either float or integer or index.
+   if (!isInt)
+     return type.isa<FloatType>();
+-- 
+2.25.1
+
