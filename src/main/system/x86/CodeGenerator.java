@@ -446,7 +446,7 @@ public class CodeGenerator  {
         file.ret();
     }
 
-    static final private long PARAM_START_WORD = 2;
+    private static final long PARAM_START_WORD = 2;
                                     // return addr and saved bp
 
     private void locateParameters(List<Parameter> params) {
@@ -506,7 +506,7 @@ public class CodeGenerator  {
             file.add(imm(len), sp());
         }
     }
- 
+     // int 节点
     public Void visit(Call node) {
         for (Expr arg : ListUtils.reverse(node.args())) {
             compile(arg);
@@ -519,7 +519,7 @@ public class CodeGenerator  {
             compile(node.expr()); 
             as.callAbsolute(ax());
         }
-        // >4 bytes arguments are not supported.
+        
         rewindStack(as, stackSizeFromWordNum(node.numArgs()));
         return null;
     }
